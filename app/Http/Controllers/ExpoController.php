@@ -214,6 +214,7 @@ class ExpoController extends Controller
     public function expolist()
     {
         $expo_details = DB::table('expo_details')->get();
+        // This code is added to prevent double json encode
         $i =0;
         foreach($expo_details as $exp)
         {
@@ -221,6 +222,7 @@ class ExpoController extends Controller
             $expo_details[$i]->other_contact = $decoded_json;
             $i++;
         }
+        // Extra code ends here
         if(NULL != $expo_details)
         {
             $response_array = array(
