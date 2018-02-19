@@ -64,6 +64,8 @@ class ExpoController extends Controller
     }
     public function saveDetails(Request $request)
     {
+        // print_r($request->all());
+        // exit;
         //mail("dhawalraut13@gmail.com","test array",print_r($request->all(),TRUE));exit; 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
