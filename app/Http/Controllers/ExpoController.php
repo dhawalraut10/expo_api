@@ -130,8 +130,8 @@ class ExpoController extends Controller
         }
 
         $destinationPath = storage_path('app/uploads');
-
-        if(NULL != $request->file('upload_files'))
+        $id = $request->input('expo_id');
+        /*if(NULL != $request->file('upload_files'))
         {
             //echo "here2";exit;
             //mail("dhawalraut13@gmail.com","test array","here 4");
@@ -150,17 +150,26 @@ class ExpoController extends Controller
                 
             }
             else
-            {
+            {*/
                 //echo "here3";exit;
-                if($request->file('upload_files')->isValid())
-                {
-                    $filename = str_random(40).".".$request->file('upload_files')->getClientOriginalExtension();
-                    $request->file('upload_files')->move($destinationPath, $filename);
+                /*if($request->file('upload_files')->isValid())
+                {*/
+                    //mail("dhawalraut13@gmail.com","upload file 1", "a");
+                    foreach($request->file('upload_files') as $uploaded_files)
+                    {
+                        $filename = str_random(40).".".$uploaded_files->getClientOriginalExtension();
+                        $filename_arr[] = "http://174.141.231.145/exp/expo_api/storage/app/uploads/".$filename;
+                        $uploaded_files->move($destinationPath, $filename);
+                        $fileUploaded = DB::table('images')->insertGetId(['expo_detail_id' => $id, 'name' => $filename, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
+                        //mail("dhawalraut13@gmail.com","upload file 2", print_r($fileUploaded,true));
+                    }
+                        //mail("dhawalraut13@gmail.com","upload file 123","filename");
+                    //exit;
 
-                    $fileUploaded = DB::table('images')->insertGetId(['expo_detail_id' => $id, 'name' => $filename, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
                     if($fileUploaded)
                     {
-                        $returnArr = ['file_name' => "http://174.141.231.145/exp/expo_api/storage/app/uploads/".$filename];
+                        //mail("dhawalraut13@gmail.com","upload file 3", "3");
+                        $returnArr = ['file_name' => $filename_arr];
                         $response_array = array(
                             'code' => 200,
                             'error_code' => '',
@@ -173,6 +182,7 @@ class ExpoController extends Controller
                     }
                     else
                     {
+                        //mail("dhawalraut13@gmail.com","upload file 4", "4");
                         $response_array = array(
                             'code' => 400,
                             'error_code' => '',
@@ -183,7 +193,7 @@ class ExpoController extends Controller
                             'debug' => TRUE
                         );
                     }
-                }
+               /* }
                 else
                 {
                     $response_array = array(
@@ -195,8 +205,8 @@ class ExpoController extends Controller
                             'error_msg' => '',
                             'debug' => TRUE
                         );
-                }
-            }
+                }*/
+        /*    }
         }
         else
         {
@@ -209,7 +219,8 @@ class ExpoController extends Controller
                 'error_msg' => '',
                 'debug' => TRUE
             );
-        }
+        }*/
+        //mail("dhawalraut13@gmail.com","upload file 5", print_r($response_array,true));
         return $this->returnResponse($response_array);
     }
 
