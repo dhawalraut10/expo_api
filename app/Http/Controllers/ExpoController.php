@@ -131,6 +131,7 @@ class ExpoController extends Controller
 
         $destinationPath = storage_path('app/uploads');
         $id = $request->input('expo_id');
+        print_r($request->all());exit;
         /*if(NULL != $request->file('upload_files'))
         {
             //echo "here2";exit;
