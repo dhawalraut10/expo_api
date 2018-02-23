@@ -298,7 +298,9 @@ class ExpoController extends Controller
             return $this->returnResponse($response_array);
         }
     }
-    /* this is comment*/
-    /*This comment is added after git setup on server Thanks*/
-    /*this is new line*/
+    
+    /*public function test()
+    {
+        $numargs = func_num_args();
+    }*/
 }
