@@ -313,7 +313,7 @@ class ExpoController extends Controller
                 'expo_name' => $eachExpo['expoName'],
                 'expo_name' => $eachExpo['expoName'],
                 'expo_name' => $eachExpo['expoName'],
-            )
+            );
         }
         print_r($request->all());exit;
     }
