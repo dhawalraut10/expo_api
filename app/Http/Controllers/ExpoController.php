@@ -430,13 +430,14 @@ class ExpoController extends Controller
             ];
 
             $user_datails = DB::table('users')->insertGetId($insertArr);
+            $final_user_details = DB::table('users')->where('id',$user_datails)->first();
 
             if(NULL != $user_datails)
             {
                 $response_array = array(
                     'code' => 200,
                     'error_code' => '',
-                    'data' => $user_datails,
+                    'data' => $final_user_details,
                     'status' => 'success',
                     'statusMsg' => 'User registred successfully',
                     'error_msg' => '',
