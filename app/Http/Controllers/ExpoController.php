@@ -304,18 +304,40 @@ class ExpoController extends Controller
     
     public function saveDetailsRecursively(Request $request)
     {
-        $expoArr = [];
-        foreach($request->record as $eachExpo)
+        $expoArr = array(
+            'expo_name' => strtolower($request->input('expo_name')),
+            'created_on' => date('Y-m-d H:i:s'),
+            'customer_id' => $request->input('customer_id')
+        );
+
+        $expo_datails = DB::table('expo_details')->insertGetId($expoArr);
+
+        if(NULL != $expo_datails)
         {
-            $expoArr[] = array(
-                'expo_name' => $eachExpo['expoName'],
-                'created_on' => date('Y-m-d H:i:s'),
-                'expo_name' => $eachExpo['expoName'],
-                'expo_name' => $eachExpo['expoName'],
-                'expo_name' => $eachExpo['expoName'],
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => $expo_datails,
+                'status' => 'success',
+                'statusMsg' => 'Expo registred successfully',
+                'error_msg' => '',
+                'debug' => "TRUE"
             );
+            return $this->returnResponse($response_array);
         }
-        print_r($request->all());exit;
+        else
+        {
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => '',
+                'status' => 'fail',
+                'statusMsg' => 'Expo not registred',
+                'error_msg' => '',
+                'debug' => "TRUE"
+            );
+            return $this->returnResponse($response_array);
+        }
     }
 
     public function login(Request $request)
@@ -418,6 +440,19 @@ class ExpoController extends Controller
                     'status' => 'success',
                     'statusMsg' => 'User registred successfully',
                     'error_msg' => '',
+                    'debug' => "TRUE"
+                );
+                return $this->returnResponse($response_array);
+            }
+            else
+            {
+                $response_array = array(
+                    'code' => 200,
+                    'error_code' => '',
+                    'data' => '',
+                    'status' => 'fail',
+                    'statusMsg' => 'User registration process failed',
+                    'error_msg' => 'Details not inserted.',
                     'debug' => "TRUE"
                 );
                 return $this->returnResponse($response_array);
