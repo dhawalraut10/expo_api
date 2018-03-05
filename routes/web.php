@@ -20,3 +20,6 @@ $router->post('save/', "ExpoController@saveDetails");
 $router->post('saveimage/', "ExpoController@saveImage");
 $router->get('expo/', "ExpoController@expolist");
 $router->get('expo/{id}', "ExpoController@expodetails");
+$router->post('saveExpoDetails/', "ExpoController@saveDetailsRecursively");
+$router->post('register/', "ExpoController@registration");
+$router->post('login/', "ExpoController@login");

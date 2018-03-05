@@ -230,12 +230,15 @@ class ExpoController extends Controller
         $expo_details = DB::table('expo_details')->get();
         // This code is added to prevent double json encode
         $i =0;
+        print_r($expo_details);exit;
         foreach($expo_details as $exp)
         {
             $decoded_json = json_decode($exp->other_contact);
             $expo_details[$i]->other_contact = $decoded_json;
+            $expo_details[$i]->is_selected = 0;
             $i++;
         }
+        print_r($expo_details);exit;
         // Extra code ends here
         if(NULL != $expo_details)
         {
@@ -299,8 +302,126 @@ class ExpoController extends Controller
         }
     }
     
-    /*public function test()
+    public function saveDetailsRecursively(Request $request)
     {
-        $numargs = func_num_args();
-    }*/
+        $expoArr = [];
+        foreach($request->record as $eachExpo)
+        {
+            $expoArr[] = array(
+                'expo_name' => $eachExpo['expoName'],
+                'created_on' => date('Y-m-d H:i:s'),
+                'expo_name' => $eachExpo['expoName'],
+                'expo_name' => $eachExpo['expoName'],
+                'expo_name' => $eachExpo['expoName'],
+            )
+        }
+        print_r($request->all());exit;
+    }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if($validator->fails())
+        {
+            //mail("dhawalraut13@gmail.com","test array","here 0");
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => '',
+                'status' => 'fail',
+                'statusMsg' => $validator->errors()->first(),
+                'error_msg' => 'Validation failed',
+                'debug' => "TRUE"
+            );
+            return $this->returnResponse($response_array);
+        }
+        else
+        {
+            $check_user_exists = DB::table('users')->where([
+                ['email', '=', strtolower($request->input('email'))],
+                ['password', '=', MD5($request->input('password'))]
+            ])->first();
+
+            if(NULL != $check_user_exists)
+            {
+                $response_array = array(
+                    'code' => 200,
+                    'error_code' => '',
+                    'data' => $check_user_exists,
+                    'status' => 'success',
+                    'statusMsg' => 'User logged in successfully',
+                    'error_msg' => '',
+                    'debug' => "TRUE"
+                );
+                return $this->returnResponse($response_array);
+            }
+            else
+            {
+                $response_array = array(
+                    'code' => 200,
+                    'error_code' => '',
+                    'data' => '',
+                    'status' => 'fail',
+                    'statusMsg' => 'Incorrect username or password',
+                    'error_msg' => '',
+                    'debug' => "TRUE"
+                );
+                return $this->returnResponse($response_array);
+            }
+        }
+    }
+
+    public function registration(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if($validator->fails())
+        {
+            //mail("dhawalraut13@gmail.com","test array","here 0");
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => '',
+                'status' => 'fail',
+                'statusMsg' => $validator->errors()->first(),
+                'error_msg' => 'Validation failed',
+                'debug' => "TRUE"
+            );
+            return $this->returnResponse($response_array);
+        }
+        else
+        {
+            $insertArr = [
+                'name' => strtolower($request->input('name')),
+                'email' => strtolower($request->input('email')),
+                'password' => MD5($request->input('password')),
+                'created_on' => date('Y-m-d H:i:s'),
+                'is_deleted' => 0,
+            ];
+
+            $user_datails = DB::table('users')->insertGetId($insertArr);
+
+            if(NULL != $user_datails)
+            {
+                $response_array = array(
+                    'code' => 200,
+                    'error_code' => '',
+                    'data' => $user_datails,
+                    'status' => 'success',
+                    'statusMsg' => 'User registred successfully',
+                    'error_msg' => '',
+                    'debug' => "TRUE"
+                );
+                return $this->returnResponse($response_array);
+            }
+        }
+    }
 }
