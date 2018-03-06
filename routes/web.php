@@ -23,3 +23,4 @@ $router->get('expo/{id}', "ExpoController@expodetails");
 $router->post('saveExpoDetails/', "ExpoController@saveDetailsRecursively");
 $router->post('register/', "ExpoController@registration");
 $router->post('login/', "ExpoController@login");
+$router->post('saveOfflineDetails/', "ExpoController@updateInfo");
