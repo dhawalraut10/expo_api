@@ -474,11 +474,10 @@ class ExpoController extends Controller
             $expo_ids[] = $value['localExpoId'];
         }
         $check_insert = DB::table('expo_details')->insert($expoInsertArr);
-        $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('id', $expo_ids)->get();
+        $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('expo_local_id', $expo_ids)->get();
         $companyInsertArr = [];
         if(NULL != $request->input('record.0.companies'))
         {
-            //print_r($request->input('record.0.localExpoId'));exit;
             foreach ($request->input('record.0.companies') as $companyDetails) {
                 $companyInsertArr[] = [
                     'name' => $companyDetails['CompanyName'],
@@ -488,13 +487,12 @@ class ExpoController extends Controller
                     'priority' => $companyDetails['priority'],
                     'company_tags' => json_encode($companyDetails['companyTags']),
                 ];
-                $company_ids[] = $value['localExpoId'];   
+                $company_ids[] = $companyDetails['companyInternalId'];   
             }
 
-             $check_insert = DB::table('company_details')->insert($companyInsertArr);
-            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('id', $company_ids)->get();
+            $check_insert = DB::table('company_details')->insert($companyInsertArr);
+            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
         }
-
         $response_array = array(
                     'code' => 200,
                     'error_code' => '',
