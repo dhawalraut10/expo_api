@@ -311,13 +311,14 @@ class ExpoController extends Controller
         );
 
         $expo_datails = DB::table('expo_details')->insertGetId($expoArr);
+        $expo_details_after_insertion = DB::table('expo_details')->where('id',$expo_datails)->first();
 
         if(NULL != $expo_datails)
         {
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
-                'data' => $expo_datails,
+                'data' => $expo_details_after_insertion,
                 'status' => 'success',
                 'statusMsg' => 'Expo registred successfully',
                 'error_msg' => '',
