@@ -465,7 +465,7 @@ class ExpoController extends Controller
     public function updateInfo(Request $request)
     {
         //print_r($request->all());exit;
-        $response_array = array(
+        /*$response_array = array(
                     'code' => 200,
                     'error_code' => '',
                     'data' => $request->all(),
@@ -474,7 +474,7 @@ class ExpoController extends Controller
                     'error_msg' => '',
                     'debug' => "TRUE"
                 );
-        return $this->returnResponse($response_array);
+        return $this->returnResponse($response_array);*/
         $expoInsertArr = [];
         $expo_ids = [];
         foreach ($request->input('record') as $value) {
