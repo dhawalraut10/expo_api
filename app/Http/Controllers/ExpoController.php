@@ -529,33 +529,51 @@ class ExpoController extends Controller
         else
         {
             $user_details = DB::table('users')->where('email',$request->input('email'))->first();
-            $getRandomString = generateRandomString();
-            
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= 'From: '.$mail_arr['from']. "\r\n";
+            if(NULL != $user_details)
+            {
+                $getRandomString = $this->generateRandomString();
 
-            $message = "Hello,
+                DB::table('users')->where('id', $user_details->id)->update(['password' => md5($getRandomString)]);
+
+                $headers = "MIME-Version: 1.0" . "\r\n";
+                $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+                $headers .= "From: noreply@expoapplications.com\r\n";
+
+                $message = "Hello,
 As per your request to reset the password of Expo aaplication, we have generated new password.
 New Password : ".$getRandomString."
 
 Note: Kindly reset password after loggin in.
 
 Thank you.";
-            $mail = mail($user_details->email,"Reset Password Request at Expo Application",$message,$headers);
+                $mail = mail($user_details->email,"Reset Password Request at Expo Application",$message,$headers);
 
-            if($mail)
-            {
-                $response_array = array(
-                    'code' => 200,
-                    'error_code' => '',
-                    'data' => '',
-                    'status' => 'success',
-                    'statusMsg' => 'New password is sent to your registered email address',
-                    'error_msg' => '',
-                    'debug' => "TRUE"
-                );
-                return $this->returnResponse($response_array);
+                if($mail)
+                {
+                    $response_array = array(
+                        'code' => 200,
+                        'error_code' => '',
+                        'data' => '',
+                        'status' => 'success',
+                        'statusMsg' => 'New password is sent to your registered email address',
+                        'error_msg' => '',
+                        'debug' => "TRUE"
+                    );
+                    return $this->returnResponse($response_array);
+                }
+                else
+                {
+                    $response_array = array(
+                        'code' => 200,
+                        'error_code' => '',
+                        'data' => '',
+                        'status' => 'fail',
+                        'statusMsg' => 'Something went wrong, please try resetting password after some time',
+                        'error_msg' => 'Email was not sent',
+                        'debug' => "TRUE"
+                    );
+                    return $this->returnResponse($response_array);
+                }
             }
             else
             {
@@ -564,8 +582,8 @@ Thank you.";
                     'error_code' => '',
                     'data' => '',
                     'status' => 'fail',
-                    'statusMsg' => 'Something went wrong, please try resetting password after some time',
-                    'error_msg' => 'Email was not sent',
+                    'statusMsg' => 'Email does not exists.',
+                    'error_msg' => 'Email was not found',
                     'debug' => "TRUE"
                 );
                 return $this->returnResponse($response_array);
