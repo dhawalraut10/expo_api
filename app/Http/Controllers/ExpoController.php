@@ -546,8 +546,8 @@ New Password : ".$getRandomString."
 Note: Kindly reset password after loggin in.
 
 Thank you.";
-                $mail = @mail($user_details->email,"Reset Password Request at Expo Application",$message,$headers);
-
+                @mail($user_details->email,"Reset Password Request at Expo Application",$message,$headers);
+                $mail = TRUE;
                 if($mail)
                 {
                     $response_array = array(
