@@ -505,4 +505,85 @@ class ExpoController extends Controller
         return $this->returnResponse($response_array);
         //echo "<pre>";print_r($expoInsertArr);exit;
     }
+
+    public function forgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email'
+        ]);
+
+        if($validator->fails())
+        {
+            //mail("dhawalraut13@gmail.com","test array","here 0");
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => '',
+                'status' => 'fail',
+                'statusMsg' => $validator->errors()->first(),
+                'error_msg' => 'Validation failed',
+                'debug' => "TRUE"
+            );
+            return $this->returnResponse($response_array);
+        }
+        else
+        {
+            $user_details = DB::table('users')->where('email',$request->input('email'))->first();
+            $getRandomString = generateRandomString();
+            
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            $headers .= 'From: '.$mail_arr['from']. "\r\n";
+
+            $message = "Hello,
+As per your request to reset the password of Expo aaplication, we have generated new password.
+New Password : ".$getRandomString."
+
+Note: Kindly reset password after loggin in.
+
+Thank you.";
+            $mail = mail($user_details->email,"Reset Password Request at Expo Application",$message,$headers);
+
+            if($mail)
+            {
+                $response_array = array(
+                    'code' => 200,
+                    'error_code' => '',
+                    'data' => '',
+                    'status' => 'success',
+                    'statusMsg' => 'New password is sent to your registered email address',
+                    'error_msg' => '',
+                    'debug' => "TRUE"
+                );
+                return $this->returnResponse($response_array);
+            }
+            else
+            {
+                $response_array = array(
+                    'code' => 200,
+                    'error_code' => '',
+                    'data' => '',
+                    'status' => 'fail',
+                    'statusMsg' => 'Something went wrong, please try resetting password after some time',
+                    'error_msg' => 'Email was not sent',
+                    'debug' => "TRUE"
+                );
+                return $this->returnResponse($response_array);
+            }
+            //$mail = mail($to=$mail_arr['to'],$subject=$mail_arr['subject'],$message=$mail_arr['body'],$headers);
+
+        }
+    }
+
+    function generateRandomString($length = 8) 
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) 
+        {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
 }
