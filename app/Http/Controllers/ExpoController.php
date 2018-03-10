@@ -465,6 +465,16 @@ class ExpoController extends Controller
     public function updateInfo(Request $request)
     {
         //print_r($request->all());exit;
+        $response_array = array(
+                    'code' => 200,
+                    'error_code' => '',
+                    'data' => $request->all(),
+                    'status' => 'success',
+                    'statusMsg' => 'Data updated succesfully',
+                    'error_msg' => '',
+                    'debug' => "TRUE"
+                );
+        return $this->returnResponse($response_array);
         $expoInsertArr = [];
         $expo_ids = [];
         foreach ($request->input('record') as $value) {
