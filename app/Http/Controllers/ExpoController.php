@@ -485,10 +485,10 @@ class ExpoController extends Controller
                     'expo_name' => $value['expoName'],
                     'expo_local_id' => $value['localExpoId'],
                 ];
-                $expo_ids[] = $value['localExpoId'];
+                $expo_ids = array_push($value['localExpoId']);
             }
         }
-        //echo "<pre>";print_r($expoInsertArr);print_r($expo_ids);exit;
+        echo "<pre>";print_r($expoInsertArr);print_r($expo_ids);exit;
         //echo count($expoInsertArr);exit;
         if(count($expoInsertArr) < 1)
         {
