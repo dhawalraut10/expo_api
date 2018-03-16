@@ -475,45 +475,74 @@ class ExpoController extends Controller
                     'debug' => "TRUE"
                 );
         return $this->returnResponse($response_array);*/
+
         $expoInsertArr = [];
         $expo_ids = [];
         foreach ($request->input('record') as $value) {
-            $expoInsertArr[] = [
-                'expo_name' => $value['expoName'],
-                'expo_local_id' => $value['localExpoId'],
-            ];
-            $expo_ids[] = $value['localExpoId'];
-        }
-        $check_insert = DB::table('expo_details')->insert($expoInsertArr);
-        $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('expo_local_id', $expo_ids)->get();
-        $companyInsertArr = [];
-        if(NULL != $request->input('record.0.companies'))
-        {
-            foreach ($request->input('record.0.companies') as $companyDetails) {
-                $companyInsertArr[] = [
-                    'name' => $companyDetails['CompanyName'],
-                    'expo_local_id' => $request->input('record.0.localExpoId'),
-                    'company_local_id' => $companyDetails['companyInternalId'],
-                    'note' => $companyDetails['note'],
-                    'priority' => $companyDetails['priority'],
-                    'company_tags' => json_encode($companyDetails['companyTags']),
+            if(NULL != $value['localExpoId'])
+            {
+                $expoInsertArr[] = [
+                    'expo_name' => $value['expoName'],
+                    'expo_local_id' => $value['localExpoId'],
                 ];
-                $company_ids[] = $companyDetails['companyInternalId'];   
+                $expo_ids[] = $value['localExpoId'];
             }
-
-            $check_insert = DB::table('company_details')->insert($companyInsertArr);
-            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
         }
-        $response_array = array(
-                    'code' => 200,
-                    'error_code' => '',
-                    'data' => $data,
-                    'status' => 'success',
-                    'statusMsg' => 'Data updated succesfully',
-                    'error_msg' => '',
-                    'debug' => "TRUE"
-                );
-        return $this->returnResponse($response_array);
+        //echo count($expoInsertArr);exit;
+        if(count($expoInsertArr) < 1)
+        {
+            $response_array = array(
+                'code' => 200,
+                'error_code' => 400,
+                'data' => '',
+                'status' => 'fail',
+                'statusMsg' => 'No local expo ids available',
+                'error_msg' => 'There are no Expo records',
+                'debug' => "TRUE"
+            );
+            return $this->returnResponse($response_array);
+        }
+        else
+        {
+            $check_insert = DB::table('expo_details')->insert($expoInsertArr);
+            $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('expo_local_id', $expo_ids)->get();
+            $companyInsertArr = [];
+            if(NULL != $request->input('record.0.companies'))
+            {
+                foreach ($request->input('record.0.companies') as $companyDetails) {
+                    if(NULL != $companyDetails['companyInternalId'])
+                    {
+                        $companyInsertArr[] = [
+                            'name' => $companyDetails['CompanyName'],
+                            'expo_local_id' => $request->input('record.0.localExpoId'),
+                            'company_local_id' => $companyDetails['companyInternalId'],
+                            'note' => $companyDetails['note'],
+                            'priority' => $companyDetails['priority'],
+                            'company_tags' => json_encode($companyDetails['companyTags']),
+                        ];
+                        $company_ids[] = $companyDetails['companyInternalId'];
+                    }
+                }
+
+                if(count($company_ids) > 0)
+                {
+                    $check_insert = DB::table('company_details')->insert($companyInsertArr);
+                    $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
+                }
+            }
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => $data,
+                'status' => 'success',
+                'statusMsg' => 'Data updated succesfully',
+                'error_msg' => '',
+                'debug' => "TRUE"
+            );
+            return $this->returnResponse($response_array);
+        }
+
+        
         //echo "<pre>";print_r($expoInsertArr);exit;
     }
 
