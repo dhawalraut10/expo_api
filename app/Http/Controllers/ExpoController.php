@@ -488,7 +488,7 @@ class ExpoController extends Controller
                 $expo_ids[] = $value['localExpoId'];
             }
         }
-        echo "<pre>";print_r($expoInsertArr);print_r($expo_ids);exit;
+        //echo "<pre>";print_r($expoInsertArr);print_r($expo_ids);exit;
         //echo count($expoInsertArr);exit;
         if(count($expoInsertArr) < 1)
         {
