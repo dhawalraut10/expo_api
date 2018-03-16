@@ -504,6 +504,7 @@ class ExpoController extends Controller
         }
         else
         {
+            echo "<pre>";print_r($expoInsertArr);exit;
             $check_insert = DB::table('expo_details')->insert($expoInsertArr);
             $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('expo_local_id', $expo_ids)->get();
             $companyInsertArr = [];
