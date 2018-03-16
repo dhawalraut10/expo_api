@@ -488,6 +488,7 @@ class ExpoController extends Controller
                 $expo_ids[] = $value['localExpoId'];
             }
         }
+        echo "<pre>";print_r($expoInsertArr);print_r($expo_ids);exit;
         //echo count($expoInsertArr);exit;
         if(count($expoInsertArr) < 1)
         {
@@ -504,7 +505,7 @@ class ExpoController extends Controller
         }
         else
         {
-            echo "<pre>";print_r($expoInsertArr);exit;
+            //echo "<pre>";print_r($expoInsertArr);exit;
             $check_insert = DB::table('expo_details')->insert($expoInsertArr);
             $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('expo_local_id', $expo_ids)->get();
             $companyInsertArr = [];
