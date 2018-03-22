@@ -131,6 +131,8 @@ class ExpoController extends Controller
 
         $destinationPath = storage_path('app/uploads');
         $id = $request->input('expo_id');
+        $company_local_id = $request->input('company_local_id');
+        $image_type = $request->input('image_type');
         //print_r($request->all());exit;
         /*if(NULL != $request->file('upload_files'))
         {
@@ -161,7 +163,7 @@ class ExpoController extends Controller
                         $filename = str_random(40).".".$uploaded_files->getClientOriginalExtension();
                         $filename_arr[] = "http://182.75.51.133/expo_api/storage/app/uploads/".$filename;
                         $uploaded_files->move($destinationPath, $filename);
-                        $fileUploaded = DB::table('images')->insertGetId(['expo_detail_id' => $id, 'name' => $filename, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
+                        $fileUploaded = DB::table('images')->insertGetId(['expo_detail_id' => $id, 'name' => $filename, 'company_local_id' => $company_local_id, 'image_type' => $image_type, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
                         //mail("dhawalraut13@gmail.com","upload file 2", print_r($fileUploaded,true));
                     }
                         //mail("dhawalraut13@gmail.com","upload file 123","filename");
