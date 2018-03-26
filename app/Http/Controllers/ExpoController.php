@@ -511,19 +511,37 @@ class ExpoController extends Controller
             $check_insert = DB::table('expo_details')->insert($expoInsertArr);
             $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('expo_local_id', $expo_ids)->get();
             $companyInsertArr = [];
+            $companyUpdateArr = [];
             if(NULL != $request->input('record.0.companies'))
             {
                 foreach ($request->input('record.0.companies') as $companyDetails) {
                     if(NULL != $companyDetails['companyInternalId'])
                     {
-                        $companyInsertArr[] = [
-                            'name' => $companyDetails['CompanyName'],
-                            'expo_local_id' => $request->input('record.0.localExpoId'),
-                            'company_local_id' => $companyDetails['companyInternalId'],
-                            'note' => $companyDetails['note'],
-                            'priority' => $companyDetails['priority'],
-                            'company_tags' => json_encode($companyDetails['companyTags']),
-                        ];
+                        $checkIfCompanyExists = DB::table('company_details')->where('company_local_id', $companyDetails['companyInternalId'])->get();
+
+                        if(NULL != $checkIfCompanyExists)
+                        {
+                            $companyUpdateArr[] = [
+                                'name' => $companyDetails['CompanyName'],
+                                'expo_local_id' => $request->input('record.0.localExpoId'),
+                                //'company_local_id' => $companyDetails['companyInternalId'],
+                                'note' => $companyDetails['note'],
+                                'priority' => $companyDetails['priority'],
+                                'company_tags' => json_encode($companyDetails['companyTags']),
+                            ];
+                            DB::table('company_details')->where('company_local_id', $companyDetails['companyInternalId'])->update($companyUpdateArr);
+                        }
+                        else
+                        {
+                            $companyInsertArr[] = [
+                                'name' => $companyDetails['CompanyName'],
+                                'expo_local_id' => $request->input('record.0.localExpoId'),
+                                'company_local_id' => $companyDetails['companyInternalId'],
+                                'note' => $companyDetails['note'],
+                                'priority' => $companyDetails['priority'],
+                                'company_tags' => json_encode($companyDetails['companyTags']),
+                            ];
+                        }
                         $company_ids[] = $companyDetails['companyInternalId'];
                     }
                 }
