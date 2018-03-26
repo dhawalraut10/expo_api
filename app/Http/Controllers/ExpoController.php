@@ -477,7 +477,7 @@ class ExpoController extends Controller
                     'debug' => "TRUE"
                 );
         return $this->returnResponse($response_array);*/
-
+        
         $expoInsertArr = [];
         $expo_ids = [];
         foreach ($request->input('record') as $value) {
@@ -521,7 +521,7 @@ class ExpoController extends Controller
 
                         if(NULL != $checkIfCompanyExists)
                         {
-                            $companyUpdateArr[] = [
+                            $companyUpdateArr = [
                                 'name' => $companyDetails['CompanyName'],
                                 'expo_local_id' => $request->input('record.0.localExpoId'),
                                 //'company_local_id' => $companyDetails['companyInternalId'],
