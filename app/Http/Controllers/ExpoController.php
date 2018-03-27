@@ -238,13 +238,16 @@ class ExpoController extends Controller
         }
 
         $destinationPath = storage_path('app/uploads');
-        $company_local_id = $request->input('company_local_id');
-        $image_type = $request->input('image_type');
-        $image_record_id = $request->input('recordId');
-        $user_id = $request->input('u_id');
+        
 
         foreach($request->input('companyRecords') as $uploaded_files)
         {
+            $company_local_id = $request->input('company_local_id');
+            $image_type = $request->input('companyRecords.0.image_type');
+            $image_record_id = $request->input('companyRecords.0.recordId');
+            $user_id = $request->input('companyRecords.0.u_id');
+
+            //echo $request->input('companyRecords.0.image_type');exit;
             $filename = str_random(40);
             /*$filename = str_random(40).".".$uploaded_files->getClientOriginalExtension();
             $filename_arr[] = "http://182.75.51.133/expo_api/storage/app/uploads/".$filename;
