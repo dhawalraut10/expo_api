@@ -163,6 +163,7 @@ class ExpoController extends Controller
                         $filename = str_random(40).".".$uploaded_files->getClientOriginalExtension();
                         $filename_arr[] = "http://182.75.51.133/expo_api/storage/app/uploads/".$filename;
                         $uploaded_files->move($destinationPath, $filename);
+
                         $fileUploaded = DB::table('images')->insertGetId(['expo_detail_id' => $id, 'name' => $filename, 'company_local_id' => $company_local_id, 'image_type' => $image_type, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
                         //mail("dhawalraut13@gmail.com","upload file 2", print_r($fileUploaded,true));
                     }
@@ -172,7 +173,8 @@ class ExpoController extends Controller
                     if($fileUploaded)
                     {
                         //mail("dhawalraut13@gmail.com","upload file 3", "3");
-                        $returnArr = ['file_name' => $filename_arr];
+                        $returnArr = ['file_name'        => $filename_arr,
+                                      'company_local_id' => $company_local_id];
                         $response_array = array(
                             'code' => 200,
                             'error_code' => '',
