@@ -231,7 +231,7 @@ class ExpoController extends Controller
 
     public function saveImage2(Request $request)
     {
-        //echo "<pre>";print_r($request->all());exit;
+        echo "<pre>";print_r($request->all());exit;
         if(!file_exists(storage_path('app/uploads')))
         {
             mkdir(storage_path('app/uploads'), 0777, TRUE);
