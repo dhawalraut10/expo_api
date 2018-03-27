@@ -269,7 +269,7 @@ class ExpoController extends Controller
             //$fileUploaded = DB::table('images')->insertGetId(['name' => $filename, 'company_local_id' => $company_local_id, 'image_type' => $image_type, 'image_record_id' => $image_record_id, 'user_id' => $user_id, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
             //mail("dhawalraut13@gmail.com","upload file 2", print_r($fileUploaded,true));
         }
-
+exit;
         if($fileUploaded)
         {
             $returnArr = ['file_name'        => $filename_arr,
