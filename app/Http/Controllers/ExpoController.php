@@ -240,6 +240,8 @@ class ExpoController extends Controller
         $destinationPath = storage_path('app/uploads');
         $company_local_id = $request->input('company_local_id');
         $image_type = $request->input('image_type');
+        $image_record_id = $request->input('recordId');
+        $user_id = $request->input('u_id');
 
         foreach($request->input('companyRecords') as $uploaded_files)
         {
@@ -248,7 +250,7 @@ class ExpoController extends Controller
             $filename_arr[] = "http://182.75.51.133/expo_api/storage/app/uploads/".$filename;
             $uploaded_files->move($destinationPath, $filename);*/
 
-            $fileUploaded = DB::table('images')->insertGetId(['name' => $filename, 'company_local_id' => $company_local_id, 'image_type' => $image_type, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
+            $fileUploaded = DB::table('images')->insertGetId(['name' => $filename, 'company_local_id' => $company_local_id, 'image_type' => $image_type, 'image_record_id' => $image_record_id, 'user_id' => $user_id, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
         }
         if($fileUploaded)
         {
