@@ -252,6 +252,7 @@ class ExpoController extends Controller
             /*$filename = str_random(40).".".$uploaded_files->getClientOriginalExtension();
             $filename_arr[] = "http://182.75.51.133/expo_api/storage/app/uploads/".$filename;
             $uploaded_files->move($destinationPath, $filename);*/
+            $filename_arr[] = $filename;
 
             $fileUploaded = DB::table('images')->insertGetId(['name' => $filename, 'company_local_id' => $company_local_id, 'image_type' => $image_type, 'image_record_id' => $image_record_id, 'user_id' => $user_id, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
         }
