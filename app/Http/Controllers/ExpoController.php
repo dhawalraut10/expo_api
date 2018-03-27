@@ -231,7 +231,7 @@ class ExpoController extends Controller
 
     public function saveImage2(Request $request)
     {
-        echo "<pre>";print_r($request->all());exit;
+        //echo "<pre>";print_r($request->all());exit;
         if(!file_exists(storage_path('app/uploads')))
         {
             mkdir(storage_path('app/uploads'), 0777, TRUE);
@@ -240,7 +240,7 @@ class ExpoController extends Controller
         $destinationPath = storage_path('app/uploads');
         
 
-        foreach($request->input('companyRecords') as $uploaded_files)
+        /*foreach($request->input('companyRecords') as $uploaded_files)
         {
             $company_local_id = $request->input('company_local_id');
             $image_type = $request->input('companyRecords.0.image_type');
@@ -249,13 +249,27 @@ class ExpoController extends Controller
 
             //echo $request->input('companyRecords.0.image_type');exit;
             $filename = str_random(40);
-            /*$filename = str_random(40).".".$uploaded_files->getClientOriginalExtension();
-            $filename_arr[] = "http://182.75.51.133/expo_api/storage/app/uploads/".$filename;
-            $uploaded_files->move($destinationPath, $filename);*/
+            // $filename = str_random(40).".".$uploaded_files->getClientOriginalExtension();
+            // $filename_arr[] = "http://182.75.51.133/expo_api/storage/app/uploads/".$filename;
+            // $uploaded_files->move($destinationPath, $filename);
             $filename_arr[] = $filename;
 
             $fileUploaded = DB::table('images')->insertGetId(['name' => $filename, 'company_local_id' => $company_local_id, 'image_type' => $image_type, 'image_record_id' => $image_record_id, 'user_id' => $user_id, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
+        }*/
+
+        foreach($request->file('upload_files') as $uploaded_files)
+        {
+            $file = $uploaded_files->getClientOriginalName();
+            $filename = pathinfo($file, PATHINFO_FILENAME);
+            $filename_extention = str_random(40).".".$uploaded_files->getClientOriginalExtension();
+            $filename_arr[] = "http://182.75.51.133/expo_api/storage/app/uploads/".$filename;
+            echo $filename;
+            //$uploaded_files->move($destinationPath, $filename);
+
+            //$fileUploaded = DB::table('images')->insertGetId(['name' => $filename, 'company_local_id' => $company_local_id, 'image_type' => $image_type, 'image_record_id' => $image_record_id, 'user_id' => $user_id, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
+            //mail("dhawalraut13@gmail.com","upload file 2", print_r($fileUploaded,true));
         }
+
         if($fileUploaded)
         {
             $returnArr = ['file_name'        => $filename_arr,
