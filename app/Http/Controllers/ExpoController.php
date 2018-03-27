@@ -231,6 +231,7 @@ class ExpoController extends Controller
 
     public function saveImage2(Request $request)
     {
+        //echo "<pre>";print_r($request->all());exit;
         if(!file_exists(storage_path('app/uploads')))
         {
             mkdir(storage_path('app/uploads'), 0777, TRUE);
@@ -283,7 +284,7 @@ class ExpoController extends Controller
         $expo_details = DB::table('expo_details')->get();
         // This code is added to prevent double json encode
         $i =0;
-        print_r($expo_details);exit;
+        //print_r($expo_details);exit;
         foreach($expo_details as $exp)
         {
             $decoded_json = json_decode($exp->other_contact);
@@ -291,7 +292,7 @@ class ExpoController extends Controller
             $expo_details[$i]->is_selected = 0;
             $i++;
         }
-        print_r($expo_details);exit;
+        // /print_r($expo_details);exit;
         // Extra code ends here
         if(NULL != $expo_details)
         {
