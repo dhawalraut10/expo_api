@@ -245,7 +245,7 @@ class ExpoController extends Controller
             $company_local_id = $request->input('company_local_id');
             $image_type = $request->input('companyRecords.0.image_type');
             $image_record_id = $request->input('companyRecords.0.recordId');
-            $user_id = $request->input('companyRecords.0.u_id');
+            $user_id = $request->input('u_id');
 
             //echo $request->input('companyRecords.0.image_type');exit;
             $filename = str_random(40);
