@@ -17,7 +17,8 @@ $router->get('/', function () use ($router) {
 
 $router->get('details/', "ExpoController@list");
 $router->post('save/', "ExpoController@saveDetails");
-$router->post('saveimage/', "ExpoController@saveImage");
+//$router->post('saveimage/', "ExpoController@saveImage");
+$router->post('saveimage/', "ExpoController@saveImage2");
 $router->get('expo/', "ExpoController@expolist");
 $router->get('expo/{id}', "ExpoController@expodetails");
 $router->post('saveExpoDetails/', "ExpoController@saveDetailsRecursively");

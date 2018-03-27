@@ -229,6 +229,55 @@ class ExpoController extends Controller
         return $this->returnResponse($response_array);
     }
 
+    public function saveImage2(Request $request)
+    {
+        if(!file_exists(storage_path('app/uploads')))
+        {
+            mkdir(storage_path('app/uploads'), 0777, TRUE);
+        }
+
+        $destinationPath = storage_path('app/uploads');
+        $company_local_id = $request->input('company_local_id');
+        $image_type = $request->input('image_type');
+
+        foreach($request->input('companyRecords') as $uploaded_files)
+        {
+            $filename = str_random(40);
+            /*$filename = str_random(40).".".$uploaded_files->getClientOriginalExtension();
+            $filename_arr[] = "http://182.75.51.133/expo_api/storage/app/uploads/".$filename;
+            $uploaded_files->move($destinationPath, $filename);*/
+
+            $fileUploaded = DB::table('images')->insertGetId(['name' => $filename, 'company_local_id' => $company_local_id, 'image_type' => $image_type, 'created_on' => date('Y-m-d H:i:s'), 'is_deleted' => '0']);
+        }
+        if($fileUploaded)
+        {
+            $returnArr = ['file_name'        => $filename_arr,
+                          'company_local_id' => $company_local_id];
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => $returnArr,
+                'status' => 'success',
+                'statusMsg' => 'File uploaded Successfully',
+                'error_msg' => '',
+                'debug' => TRUE
+            );
+        }
+        else
+        {
+            $response_array = array(
+                'code' => 400,
+                'error_code' => '',
+                'data' => array(),
+                'status' => 'fail',
+                'statusMsg' => 'File not uploaded.',
+                'error_msg' => '',
+                'debug' => TRUE
+            );
+        }
+        return $this->returnResponse($response_array);
+    }
+
     public function expolist()
     {
         $expo_details = DB::table('expo_details')->get();
