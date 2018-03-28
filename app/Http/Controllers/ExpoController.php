@@ -588,7 +588,6 @@ class ExpoController extends Controller
         }
         else
         {
-            //echo "<pre>";print_r($expoInsertArr);print_r($expo_ids);exit;
             $check_insert = DB::table('expo_details')->insert($expoInsertArr);
             $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('expo_local_id', $expo_ids)->get();
             $companyInsertArr = [];
@@ -598,8 +597,7 @@ class ExpoController extends Controller
                 foreach ($request->input('record.0.companies') as $companyDetails) {
                     if(NULL != $companyDetails['companyInternalId'])
                     {
-                        $checkIfCompanyExists = DB::table('company_details')->where('company_local_id', $companyDetails['companyInternalId'])->get();
-
+                        $checkIfCompanyExists = DB::table('company_details')->where('company_local_id', $companyDetails['companyInternalId'])->first();
                         if(NULL != $checkIfCompanyExists)
                         {
                             $companyUpdateArr = [
@@ -626,12 +624,12 @@ class ExpoController extends Controller
                         $company_ids[] = $companyDetails['companyInternalId'];
                     }
                 }
-
-                if(count($company_ids) > 0)
+                if(count($companyInsertArr) > 0)
                 {
                     $check_insert = DB::table('company_details')->insert($companyInsertArr);
-                    $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
                 }
+                $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
+                //echo "<pre>";print_r($data);exit;
             }
             $response_array = array(
                 'code' => 200,
