@@ -822,14 +822,14 @@ Thank you.";
             }
             else
             {
-                /*if($company_id ==  $allData->company_local_id)
+                if($company_id ==  $allData->company_local_id)
                 {
                     $expo['records']['expo'][$i]['company']['images'][] = array('image_record_id' => $allData->image_record_id,
                                                 'image_name' => $allData->image_name,
                                                 'image_type' => $allData->image_type,
                                                 'image_table_id' => $allData->image_table_id);
                 }
-                else
+                /*else
                 {
                     $expo['records']['expo'][$i]['company'][] = array('company_name' => $allData->companyName,
                                                 'company_local_id' => $allData->company_local_id,
