@@ -567,6 +567,7 @@ class ExpoController extends Controller
                 $expoInsertArr[] = [
                     'expo_name' => $value['expoName'],
                     'expo_local_id' => $value['localExpoId'],
+                    'customer_id' => $value['userId'],
                 ];
                 $expo_ids[] = $value['localExpoId'];
             }
@@ -744,5 +745,11 @@ Thank you.";
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+
+    public function restoreData(Request $request)
+    {
+        $user_id = $request->input('userid');
+
     }
 }

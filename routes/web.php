@@ -26,3 +26,4 @@ $router->post('register/', "ExpoController@registration");
 $router->post('login/', "ExpoController@login");
 $router->post('saveOfflineDetails/', "ExpoController@updateInfo");
 $router->post('resetpassword/', "ExpoController@forgotPassword");
+$router->post('restore/', "ExpoController@restoreData");
