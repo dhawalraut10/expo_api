@@ -795,7 +795,7 @@ Thank you.";
         {
             if($expo_id !=  $allData->localExpoId)
             {
-                $expo['records']['expo'][$i] =  array('localExpoId' => $allData->localExpoId,
+                $expo['records']['expo'] =  array('localExpoId' => $allData->localExpoId,
                                 'expo_name' =>  $allData->localExpoId,
                                 'id' => $allData->expo_table_id);
                 $expo_id = $allData->localExpoId;
