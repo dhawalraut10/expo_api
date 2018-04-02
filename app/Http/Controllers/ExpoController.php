@@ -758,21 +758,61 @@ Thank you.";
     public function restoreData(Request $request)
     {
         $user_id = $request->input('userid');
-        $restore_data['record'] = DB::select("SELECT
+        $restore_data = DB::select("SELECT
                                                 ed.expo_name,
+                                                ed.id as expo_table_id,
                                                 ed.customer_id,
                                                 ed.expo_local_id as localExpoId,
                                                 cd.name as companyName,
-                                                i.image_record_id
+                                                cd.company_local_id,
+                                                cd.expo_local_id as company_expo_id,
+                                                cd.note as company_note,
+                                                cd.priority,
+                                                cd.id as company_table_id,
+                                                i.image_record_id,
+                                                i.name as image_name,
+                                                i.image_type,
+                                                i.id as image_table_id
                                             FROM
                                                 expo_details ed left join  
                                                 company_details cd on ed.expo_local_id = cd.expo_local_id
                                                 left join images i on cd.company_local_id = i.company_local_id
                                             WHERE
                                                 ed.customer_id = '".$user_id."'
+                                            AND
+                                                i.is_deleted = 0
                                             GROUP BY ed.expo_local_id , i.image_record_id");
-
         print_r($restore_data['record']);exit;
+
+        $expo = [];
+        $company = [];
+        $image = [];
+
+        $expo_id = 0
+        $company_id = 0
+        foreach($restore_data as $allData)
+        {
+            if($expo_id !=  $allData->localExpoId)
+            {
+                $expo[] =  array('localExpoId' => $allData->localExpoId,
+                                'expo_name' =>  $allData->localExpoId,
+                                'id' => $allData->expo_table_id);
+                $expo_id = $allData->localExpoId;
+                if($company_id != $allData->localExpoId)
+                $expo[]['company'] = array('company_name' => $allData->companyName,
+                                            'company_local_id' => $allData->company_local_id,
+                                            'expo_local_id' => $allData->company_expo_id,
+                                            'note' => $allData->company_note,
+                                            'priority' => $allData->priority,
+                                            'company_table_id' => $allData->company_table_id);
+            }
+            else
+            {
+                $expo[]['company'] = array('localExpoId' => $allData->localExpoId);
+            }
+
+        }
+        //print_r($restore_data['record']);exit;
         /*print_r($restore_data['expo']);exit;
         
         $restore_data['record'] = DB::select("SELECT
