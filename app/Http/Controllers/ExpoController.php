@@ -772,7 +772,8 @@ Thank you.";
                                                 i.image_record_id,
                                                 i.name as image_name,
                                                 i.image_type,
-                                                i.id as image_table_id
+                                                i.id as image_table_id,
+                                                i.company_local_id as image_company_local_id
                                             FROM
                                                 expo_details ed left join  
                                                 company_details cd on ed.expo_local_id = cd.expo_local_id
