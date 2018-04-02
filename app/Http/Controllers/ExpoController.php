@@ -564,12 +564,20 @@ class ExpoController extends Controller
         foreach ($request->input('record') as $value) {
             if(NULL != $value['localExpoId'])
             {
-                $expoInsertArr[] = [
-                    'expo_name' => $value['expoName'],
-                    'expo_local_id' => $value['localExpoId'],
-                    'customer_id' => $value['userId'],
-                ];
-                $expo_ids[] = $value['localExpoId'];
+                $checkifExpoExists = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->where('expo_local_id', $value['localExpoId'])->first();
+                if(NULL != $checkifExpoExists)
+                {
+                    $expo_ids[] = $value['localExpoId'];
+                }
+                else
+                {
+                    $expoInsertArr[] = [
+                        'expo_name' => $value['expoName'],
+                        'expo_local_id' => $value['localExpoId'],
+                        'customer_id' => $value['userId'],
+                    ];
+                    $expo_ids[] = $value['localExpoId'];
+                }
             }
         }
         //echo "<pre>";print_r($expoInsertArr);print_r($expo_ids);exit;
@@ -750,6 +758,38 @@ Thank you.";
     public function restoreData(Request $request)
     {
         $user_id = $request->input('userid');
+        $restore_data['record'] = DB::select("SELECT
+                                                ed.expo_name,
+                                                ed.customer_id,
+                                                ed.expo_local_id as localExpoId,
+                                                cd.name as companyName,
+                                                i.image_record_id
+                                            FROM
+                                                expo_details ed left join  
+                                                company_details cd on ed.expo_local_id = cd.expo_local_id
+                                                left join images i on cd.company_local_id = i.company_local_id
+                                            WHERE
+                                                ed.customer_id = '".$user_id."'
+                                            GROUP BY ed.expo_local_id , i.image_record_id");
 
+        print_r($restore_data['record']);exit;
+        /*print_r($restore_data['expo']);exit;
+        
+        $restore_data['record'] = DB::select("SELECT
+                                                ed.expo_name,
+                                                ed.customer_id,
+                                                ed.expo_local_id as localExpoId,
+                                                cd.name as companyName,
+                                                i.image_record_id,
+                                                i.name as imageName,
+                                                i.image_type as imageType
+                                            FROM
+                                                expo_details ed, 
+                                                company_details cd left join images i on cd.company_local_id = i.company_local_id
+                                                
+                                            WHERE
+                                                ed.expo_local_id = cd.expo_local_id
+                                            AND
+                                                ed.customer_id = '".$user_id."'");*/
     }
 }
