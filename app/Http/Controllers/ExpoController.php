@@ -800,7 +800,7 @@ Thank you.";
                                 'id' => $allData->expo_table_id);
                 $expo_id = $allData->localExpoId;
 
-                /*if($company_id != $allData->company_local_id){
+                if($company_id != $allData->company_local_id){
                     $expo['records']['expo']['company'][$i] = array('company_name' => $allData->companyName,
                                                 'company_local_id' => $allData->company_local_id,
                                                 'expo_local_id' => $allData->company_expo_id,
@@ -808,24 +808,24 @@ Thank you.";
                                                 'priority' => $allData->priority,
                                                 'company_table_id' => $allData->company_table_id);
 
-                    $expo['records']['expo']['company']['images'][$i] = array('image_record_id' => $allData->image_record_id,
+                    /*$expo['records']['expo']['company']['images'][$i] = array('image_record_id' => $allData->image_record_id,
                                                 'image_name' => $allData->image_name,
                                                 'image_type' => $allData->image_type,
-                                                'image_table_id' => $allData->image_table_id);
+                                                'image_table_id' => $allData->image_table_id);*/
 
                     $company_id = $allData->localExpoId;
-                }*/
+                }
             }
             else
             {
-                /*if($company_id ==  $allData->company_local_id)
+                if($company_id ==  $allData->company_local_id)
                 {
                     $expo['records']['expo']['company']['images'][$i] = array('image_record_id' => $allData->image_record_id,
                                                 'image_name' => $allData->image_name,
                                                 'image_type' => $allData->image_type,
                                                 'image_table_id' => $allData->image_table_id);
                 }
-                else
+                /*else
                 {
                     $expo['records']['expo']['company'][$i] = array('company_name' => $allData->companyName,
                                                 'company_local_id' => $allData->company_local_id,
