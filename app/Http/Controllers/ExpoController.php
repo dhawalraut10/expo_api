@@ -809,7 +809,7 @@ Thank you.";
                                                 'priority' => $allData->priority,
                                                 'company_table_id' => $allData->company_table_id);
 
-                    $company_id = $allData->localExpoId;
+                    $company_id = $allData->company_local_id;
                 }
                 if($image_id != $allData->image_record_id){
                     $expo['records']['expo'][$allData->localExpoId]['company']['images'] = array('image_record_id' => $allData->image_record_id,
