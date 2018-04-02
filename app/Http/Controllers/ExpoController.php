@@ -782,7 +782,7 @@ Thank you.";
                                             AND
                                                 i.is_deleted = 0
                                             GROUP BY ed.expo_local_id , i.image_record_id");
-        print_r($restore_data);exit;
+        
 
         $expo = [];
         $company = [];
@@ -798,20 +798,49 @@ Thank you.";
                                 'expo_name' =>  $allData->localExpoId,
                                 'id' => $allData->expo_table_id);
                 $expo_id = $allData->localExpoId;
-                if($company_id != $allData->localExpoId)
-                $expo[]['company'] = array('company_name' => $allData->companyName,
-                                            'company_local_id' => $allData->company_local_id,
-                                            'expo_local_id' => $allData->company_expo_id,
-                                            'note' => $allData->company_note,
-                                            'priority' => $allData->priority,
-                                            'company_table_id' => $allData->company_table_id);
+
+                if($company_id != $allData->company_local_id){
+                    $expo[]['company'][] = array('company_name' => $allData->companyName,
+                                                'company_local_id' => $allData->company_local_id,
+                                                'expo_local_id' => $allData->company_expo_id,
+                                                'note' => $allData->company_note,
+                                                'priority' => $allData->priority,
+                                                'company_table_id' => $allData->company_table_id);
+
+                    $expo[]['company']['images'][] = array('image_record_id' => $allData->image_record_id,
+                                                'image_name' => $allData->image_name,
+                                                'image_type' => $allData->image_type,
+                                                'image_table_id' => $allData->image_table_id);
+
+                    $company_id = $allData->localExpoId;
+                }
             }
             else
             {
-                $expo[]['company'] = array('localExpoId' => $allData->localExpoId);
+                if($company_id ==  $allData->company_local_id)
+                {
+                    $expo[]['company']['images'][] = array('image_record_id' => $allData->image_record_id,
+                                                'image_name' => $allData->image_name,
+                                                'image_type' => $allData->image_type,
+                                                'image_table_id' => $allData->image_table_id);
+                }
+                else
+                {
+                    $expo[]['company'][] = array('company_name' => $allData->companyName,
+                                                'company_local_id' => $allData->company_local_id,
+                                                'expo_local_id' => $allData->company_expo_id,
+                                                'note' => $allData->company_note,
+                                                'priority' => $allData->priority,
+                                                'company_table_id' => $allData->company_table_id);
+                    $expo[]['company']['images'][] = array('image_record_id' => $allData->image_record_id,
+                                                'image_name' => $allData->image_name,
+                                                'image_type' => $allData->image_type,
+                                                'image_table_id' => $allData->image_table_id);
+                }
             }
 
         }
+        print_r($expo);exit;
         //print_r($restore_data['record']);exit;
         /*print_r($restore_data['expo']);exit;
         
