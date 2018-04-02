@@ -788,8 +788,8 @@ Thank you.";
         $company = [];
         $image = [];
 
-        $expo_id = 0
-        $company_id = 0
+        $expo_id = 0;
+        $company_id = 0;
         foreach($restore_data as $allData)
         {
             if($expo_id !=  $allData->localExpoId)
