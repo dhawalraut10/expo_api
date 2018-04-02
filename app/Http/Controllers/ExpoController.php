@@ -842,6 +842,7 @@ Thank you.";
                                                 'image_name' => $allData->image_name,
                                                 'image_type' => $allData->image_type,
                                                 'image_table_id' => $allData->image_table_id);
+                    $company_id = $allData->company_local_id;
                 }
             }
             $i++;
