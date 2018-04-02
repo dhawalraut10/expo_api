@@ -782,7 +782,7 @@ Thank you.";
                                             AND
                                                 i.is_deleted = 0
                                             GROUP BY ed.expo_local_id , i.image_record_id");
-        print_r($restore_data['record']);exit;
+        print_r($restore_data);exit;
 
         $expo = [];
         $company = [];
