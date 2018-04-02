@@ -816,7 +816,8 @@ Thank you.";
                     $expo['records']['expo'][$allData->localExpoId]['company']['images'][] = array('image_record_id' => $allData->image_record_id,
                                                 'image_name' => $allData->image_name,
                                                 'image_type' => $allData->image_type,
-                                                'image_table_id' => $allData->image_table_id);
+                                                'image_table_id' => $allData->image_table_id,
+                                                'image_company_local_id' => $allData->image_company_local_id);
 
                     $image_id = $allData->image_record_id;
                 }
@@ -828,7 +829,8 @@ Thank you.";
                     $expo['records']['expo'][$allData->localExpoId]['company']['images'][] = array('image_record_id' => $allData->image_record_id,
                                                 'image_name' => $allData->image_name,
                                                 'image_type' => $allData->image_type,
-                                                'image_table_id' => $allData->image_table_id);
+                                                'image_table_id' => $allData->image_table_id,
+                                                'image_company_local_id' => $allData->image_company_local_id);
                 }
                 else
                 {
@@ -842,7 +844,8 @@ Thank you.";
                     $expo['records']['expo'][$allData->localExpoId]['company']['images'][] = array('image_record_id' => $allData->image_record_id,
                                                 'image_name' => $allData->image_name,
                                                 'image_type' => $allData->image_type,
-                                                'image_table_id' => $allData->image_table_id);
+                                                'image_table_id' => $allData->image_table_id,
+                                                'image_company_local_id' => $allData->image_company_local_id);
                     $company_id = $allData->company_local_id;
                 }
             }
