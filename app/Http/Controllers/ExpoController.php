@@ -875,6 +875,7 @@ Thank you.";
                                                 cd.note as company_note,
                                                 cd.priority,
                                                 cd.id as company_table_id,
+                                                cd.company_tags,
                                                 i.image_record_id,
                                                 i.name as image_name,
                                                 i.image_type,
