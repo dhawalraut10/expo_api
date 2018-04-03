@@ -467,6 +467,7 @@ class ExpoController extends Controller
                                                 cd.note as company_note,
                                                 cd.priority,
                                                 cd.id as company_table_id,
+                                                cd.company_tags,
                                                 i.image_record_id,
                                                 i.name as image_name,
                                                 i.image_type,
@@ -506,7 +507,8 @@ class ExpoController extends Controller
                                                         'expo_local_id' => $allData->company_expo_id,
                                                         'note' => $allData->company_note,
                                                         'priority' => $allData->priority,
-                                                        'company_table_id' => $allData->company_table_id);
+                                                        'company_table_id' => $allData->company_table_id,
+                                                        'tags' => json_decode($allData->company_tags,TRUE));
 
                             $company_id = $allData->company_local_id;
                         }
@@ -537,7 +539,8 @@ class ExpoController extends Controller
                                                         'expo_local_id' => $allData->company_expo_id,
                                                         'note' => $allData->company_note,
                                                         'priority' => $allData->priority,
-                                                        'company_table_id' => $allData->company_table_id);
+                                                        'company_table_id' => $allData->company_table_id,
+                                                        'tags' => json_decode($allData->company_tags,TRUE));
                             $company_id = $allData->localExpoId;
                             $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
                                                         'image_name' => $allData->image_name,
