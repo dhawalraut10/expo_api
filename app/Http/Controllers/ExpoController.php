@@ -851,26 +851,32 @@ Thank you.";
             }
             $i++;
         }
-        echo count($expo['records']['expo']);
-        print_r($expo);exit;
-        //print_r($restore_data['record']);exit;
-        /*print_r($restore_data['expo']);exit;
-        
-        $restore_data['record'] = DB::select("SELECT
-                                                ed.expo_name,
-                                                ed.customer_id,
-                                                ed.expo_local_id as localExpoId,
-                                                cd.name as companyName,
-                                                i.image_record_id,
-                                                i.name as imageName,
-                                                i.image_type as imageType
-                                            FROM
-                                                expo_details ed, 
-                                                company_details cd left join images i on cd.company_local_id = i.company_local_id
-                                                
-                                            WHERE
-                                                ed.expo_local_id = cd.expo_local_id
-                                            AND
-                                                ed.customer_id = '".$user_id."'");*/
+
+        if(NULL != $expo['records']['expo'])
+        {
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => '',
+                'status' => 'success',
+                'statusMsg' => '',
+                'error_msg' => '',
+                'debug' => "TRUE"
+            );
+        }
+        else
+        {
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => '',
+                'status' => 'fail',
+                'statusMsg' => '',
+                'error_msg' => '',
+                'debug' => "TRUE"
+            );
+            
+        }
+        return $this->returnResponse($response_array);
     }
 }
