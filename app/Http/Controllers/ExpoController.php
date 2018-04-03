@@ -803,7 +803,7 @@ Thank you.";
                 $expo_id = $allData->localExpoId;
 
                 if($company_id != $allData->company_local_id){
-                    $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id][] = array('company_name' => $allData->companyName,
+                    $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id] = array('company_name' => $allData->companyName,
                                                 'company_local_id' => $allData->company_local_id,
                                                 'expo_local_id' => $allData->company_expo_id,
                                                 'note' => $allData->company_note,
@@ -834,7 +834,7 @@ Thank you.";
                 }
                 else
                 {
-                    $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id][] = array('company_name' => $allData->companyName,
+                    $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id] = array('company_name' => $allData->companyName,
                                                 'company_local_id' => $allData->company_local_id,
                                                 'expo_local_id' => $allData->company_expo_id,
                                                 'note' => $allData->company_note,
