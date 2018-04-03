@@ -965,9 +965,9 @@ Thank you.";
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
-                'data' => '',
+                'data' => $expo,
                 'status' => 'success',
-                'statusMsg' => '',
+                'statusMsg' => 'data returned',
                 'error_msg' => '',
                 'debug' => "TRUE"
             );
@@ -977,9 +977,9 @@ Thank you.";
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
-                'data' => '',
+                'data' => array(),
                 'status' => 'fail',
-                'statusMsg' => '',
+                'statusMsg' => 'No data found',
                 'error_msg' => '',
                 'debug' => "TRUE"
             );
