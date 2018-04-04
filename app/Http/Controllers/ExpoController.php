@@ -571,11 +571,14 @@ class ExpoController extends Controller
                     }
                     $i++;
                 }
+                echo "<pre>";print_r($expo);exit;
+
                 if(count($expo['records']['expo']) > 0)
                 {
                     $data['records'] = $expo['records'];
                 }
                 $data['user'] = $check_user_exists;
+
 
                 $response_array = array(
                     'code' => 200,
