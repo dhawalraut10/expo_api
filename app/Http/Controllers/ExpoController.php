@@ -455,122 +455,122 @@ class ExpoController extends Controller
             /* added here */
             if(NULL != $check_user_exists)
             {
-                        $user_id = $request->input('userid');
-        $restore_data = DB::select("SELECT
-                                                ed.expo_name,
-                                                ed.id as expo_table_id,
-                                                ed.customer_id,
-                                                ed.expo_local_id as localExpoId,
-                                                cd.name as companyName,
-                                                cd.company_local_id,
-                                                cd.expo_local_id as company_expo_id,
-                                                cd.note as company_note,
-                                                cd.priority,
-                                                cd.id as company_table_id,
-                                                cd.company_tags,
-                                                i.image_record_id,
-                                                i.name as image_name,
-                                                i.image_type,
-                                                i.id as image_table_id,
-                                                i.company_local_id as image_company_local_id
-                                            FROM
-                                                expo_details ed left join  
-                                                company_details cd on ed.expo_local_id = cd.expo_local_id
-                                                left join images i on (cd.company_local_id = i.company_local_id AND i.is_deleted = 0)
-                                            WHERE
-                                                ed.customer_id = '".$user_id."'");
-        
+                $user_id = $request->input('userid');
+                $restore_data = DB::select("SELECT
+                                                        ed.expo_name,
+                                                        ed.id as expo_table_id,
+                                                        ed.customer_id,
+                                                        ed.expo_local_id as localExpoId,
+                                                        cd.name as companyName,
+                                                        cd.company_local_id,
+                                                        cd.expo_local_id as company_expo_id,
+                                                        cd.note as company_note,
+                                                        cd.priority,
+                                                        cd.id as company_table_id,
+                                                        cd.company_tags,
+                                                        i.image_record_id,
+                                                        i.name as image_name,
+                                                        i.image_type,
+                                                        i.id as image_table_id,
+                                                        i.company_local_id as image_company_local_id
+                                                    FROM
+                                                        expo_details ed left join  
+                                                        company_details cd on ed.expo_local_id = cd.expo_local_id
+                                                        left join images i on (cd.company_local_id = i.company_local_id AND i.is_deleted = 0)
+                                                    WHERE
+                                                        ed.customer_id = '".$user_id."'");
+                
 
-        $expo = [];
-        $company = [];
-        $image = [];
+                $expo = [];
+                $company = [];
+                $image = [];
 
-        $expo_id = 0;
-        $company_id = 0;
-        $image_id = 0;
-        $i=0;
-        foreach($restore_data as $allData)
-        {
-            if($expo_id !=  $allData->localExpoId)
-            {
-                $expo['records']['expo'][$allData->localExpoId] =  array('localExpoId' => $allData->localExpoId,
-                                'expo_name' =>  $allData->expo_name,
-                                'id' => $allData->expo_table_id);
-                $expo_id = $allData->localExpoId;
-
-                if($company_id != $allData->company_local_id){
-                    $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id] = array('company_name' => $allData->companyName,
-                                                'company_local_id' => $allData->company_local_id,
-                                                'expo_local_id' => $allData->company_expo_id,
-                                                'note' => $allData->company_note,
-                                                'priority' => $allData->priority,
-                                                'company_table_id' => $allData->company_table_id,
-                                                'tags' => json_decode($allData->company_tags,TRUE));
-
-                    $company_id = $allData->company_local_id;
-                }
-                if($image_id != $allData->image_record_id){
-                    if(NULL != $allData->image_record_id)
-                    {
-                        $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
-                                                    'image_name' => $allData->image_name,
-                                                    'image_type' => $allData->image_type,
-                                                    'image_table_id' => $allData->image_table_id,
-                                                    'image_company_local_id' => $allData->image_company_local_id);                        
-                    }
-                    else
-                    {
-                       $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = []; 
-                    }
-
-                    $image_id = $allData->image_record_id;
-                }
-            }
-            else
-            {
-                if($company_id ==  $allData->company_local_id)
+                $expo_id = 0;
+                $company_id = 0;
+                $image_id = 0;
+                $i=0;
+                foreach($restore_data as $allData)
                 {
-                    if(NULL != $allData->image_record_id)
+                    if($expo_id !=  $allData->localExpoId)
                     {
-                        $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
-                                                    'image_name' => $allData->image_name,
-                                                    'image_type' => $allData->image_type,
-                                                    'image_table_id' => $allData->image_table_id,
-                                                    'image_company_local_id' => $allData->image_company_local_id);
-                    }
-                    else
-                    {
-                        $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = []; 
-                    }
-                }
-                else
-                {
-                    $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id] = array('company_name' => $allData->companyName,
-                                                'company_local_id' => $allData->company_local_id,
-                                                'expo_local_id' => $allData->company_expo_id,
-                                                'note' => $allData->company_note,
-                                                'priority' => $allData->priority,
-                                                'company_table_id' => $allData->company_table_id,
-                                                'tags' => json_decode($allData->company_tags,TRUE));
-                    $company_id = $allData->localExpoId;
+                        $expo['records']['expo'][$allData->localExpoId] =  array('localExpoId' => $allData->localExpoId,
+                                        'expo_name' =>  $allData->expo_name,
+                                        'id' => $allData->expo_table_id);
+                        $expo_id = $allData->localExpoId;
 
-                    if(NULL != $allData->image_record_id)
-                    {
-                        $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
-                                                    'image_name' => $allData->image_name,
-                                                    'image_type' => $allData->image_type,
-                                                    'image_table_id' => $allData->image_table_id,
-                                                    'image_company_local_id' => $allData->image_company_local_id);
+                        if($company_id != $allData->company_local_id){
+                            $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id] = array('company_name' => $allData->companyName,
+                                                        'company_local_id' => $allData->company_local_id,
+                                                        'expo_local_id' => $allData->company_expo_id,
+                                                        'note' => $allData->company_note,
+                                                        'priority' => $allData->priority,
+                                                        'company_table_id' => $allData->company_table_id,
+                                                        'tags' => json_decode($allData->company_tags,TRUE));
+
+                            $company_id = $allData->company_local_id;
+                        }
+                        if($image_id != $allData->image_record_id){
+                            if(NULL != $allData->image_record_id)
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
+                                                            'image_name' => $allData->image_name,
+                                                            'image_type' => $allData->image_type,
+                                                            'image_table_id' => $allData->image_table_id,
+                                                            'image_company_local_id' => $allData->image_company_local_id);                        
+                            }
+                            else
+                            {
+                               $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = []; 
+                            }
+
+                            $image_id = $allData->image_record_id;
+                        }
                     }
                     else
                     {
-                        $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = [];
+                        if($company_id ==  $allData->company_local_id)
+                        {
+                            if(NULL != $allData->image_record_id)
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
+                                                            'image_name' => $allData->image_name,
+                                                            'image_type' => $allData->image_type,
+                                                            'image_table_id' => $allData->image_table_id,
+                                                            'image_company_local_id' => $allData->image_company_local_id);
+                            }
+                            else
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = []; 
+                            }
+                        }
+                        else
+                        {
+                            $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id] = array('company_name' => $allData->companyName,
+                                                        'company_local_id' => $allData->company_local_id,
+                                                        'expo_local_id' => $allData->company_expo_id,
+                                                        'note' => $allData->company_note,
+                                                        'priority' => $allData->priority,
+                                                        'company_table_id' => $allData->company_table_id,
+                                                        'tags' => json_decode($allData->company_tags,TRUE));
+                            $company_id = $allData->localExpoId;
+
+                            if(NULL != $allData->image_record_id)
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
+                                                            'image_name' => $allData->image_name,
+                                                            'image_type' => $allData->image_type,
+                                                            'image_table_id' => $allData->image_table_id,
+                                                            'image_company_local_id' => $allData->image_company_local_id);
+                            }
+                            else
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = [];
+                            }
+                            $company_id = $allData->company_local_id;
+                        }
                     }
-                    $company_id = $allData->company_local_id;
+                    $i++;
                 }
-            }
-            $i++;
-        }
                 if(count($expo['records']['expo']) > 0)
                 {
                     $data['records'] = $expo['records'];
