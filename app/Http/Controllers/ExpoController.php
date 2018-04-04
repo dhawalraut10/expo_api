@@ -571,6 +571,7 @@ class ExpoController extends Controller
                     }
                     $i++;
                 }
+                echo "<pre>";print_r($expo);exit;
                 if(count($expo['records']['expo']) > 0)
                 {
                     $data['records'] = $expo['records'];
