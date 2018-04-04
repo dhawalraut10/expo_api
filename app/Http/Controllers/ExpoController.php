@@ -861,7 +861,7 @@ Thank you.";
         return $randomString;
     }
 
-    /*public function restoreData(Request $request)
+    public function restoreData(Request $request)
     {
         $user_id = $request->input('userid');
         $restore_data = DB::select("SELECT
@@ -987,5 +987,5 @@ Thank you.";
             
         }
         return $this->returnResponse($response_array);
-    }*/
+    }
 }
