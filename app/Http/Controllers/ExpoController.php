@@ -451,7 +451,7 @@ class ExpoController extends Controller
                 ['email', '=', strtolower($request->input('email'))],
                 ['password', '=', MD5($request->input('password'))]
             ])->first();
-
+            echo "<pre>";print_r($check_user_exists);exit;
             /* added here */
             if(NULL != $check_user_exists)
             {
@@ -476,12 +476,9 @@ class ExpoController extends Controller
                                             FROM
                                                 expo_details ed left join  
                                                 company_details cd on ed.expo_local_id = cd.expo_local_id
-                                                left join images i on cd.company_local_id = i.company_local_id
+                                                left join images i on (cd.company_local_id = i.company_local_id AND i.is_deleted = 0)
                                             WHERE
-                                                ed.customer_id = '".$user_id."'
-                                            AND
-                                                i.is_deleted = 0
-                                            GROUP BY ed.expo_local_id , i.image_record_id");
+                                                ed.customer_id = '".$user_id."'");
                 
 
                 $expo = [];
