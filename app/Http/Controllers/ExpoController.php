@@ -451,11 +451,10 @@ class ExpoController extends Controller
                 ['email', '=', strtolower($request->input('email'))],
                 ['password', '=', MD5($request->input('password'))]
             ])->first();
-            echo "<pre>";print_r($check_user_exists);exit;
             /* added here */
             if(NULL != $check_user_exists)
             {
-                $user_id = $request->input('userid');
+                $user_id = $check_user_exists->id;
                 $restore_data = DB::select("SELECT
                                                 ed.expo_name,
                                                 ed.id as expo_table_id,
@@ -510,11 +509,18 @@ class ExpoController extends Controller
                             $company_id = $allData->company_local_id;
                         }
                         if($image_id != $allData->image_record_id){
-                            $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
-                                                        'image_name' => $allData->image_name,
-                                                        'image_type' => $allData->image_type,
-                                                        'image_table_id' => $allData->image_table_id,
-                                                        'image_company_local_id' => $allData->image_company_local_id);
+                            if(NULL != $allData->image_record_id)
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
+                                                            'image_name' => $allData->image_name,
+                                                            'image_type' => $allData->image_type,
+                                                            'image_table_id' => $allData->image_table_id,
+                                                            'image_company_local_id' => $allData->image_company_local_id);                        
+                            }
+                            else
+                            {
+                               $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = []; 
+                            }
 
                             $image_id = $allData->image_record_id;
                         }
@@ -523,11 +529,18 @@ class ExpoController extends Controller
                     {
                         if($company_id ==  $allData->company_local_id)
                         {
-                            $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
-                                                        'image_name' => $allData->image_name,
-                                                        'image_type' => $allData->image_type,
-                                                        'image_table_id' => $allData->image_table_id,
-                                                        'image_company_local_id' => $allData->image_company_local_id);
+                            if(NULL != $allData->image_record_id)
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
+                                                            'image_name' => $allData->image_name,
+                                                            'image_type' => $allData->image_type,
+                                                            'image_table_id' => $allData->image_table_id,
+                                                            'image_company_local_id' => $allData->image_company_local_id);
+                            }
+                            else
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = []; 
+                            }
                         }
                         else
                         {
@@ -539,11 +552,19 @@ class ExpoController extends Controller
                                                         'company_table_id' => $allData->company_table_id,
                                                         'tags' => json_decode($allData->company_tags,TRUE));
                             $company_id = $allData->localExpoId;
-                            $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
-                                                        'image_name' => $allData->image_name,
-                                                        'image_type' => $allData->image_type,
-                                                        'image_table_id' => $allData->image_table_id,
-                                                        'image_company_local_id' => $allData->image_company_local_id);
+
+                            if(NULL != $allData->image_record_id)
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
+                                                            'image_name' => $allData->image_name,
+                                                            'image_type' => $allData->image_type,
+                                                            'image_table_id' => $allData->image_table_id,
+                                                            'image_company_local_id' => $allData->image_company_local_id);
+                            }
+                            else
+                            {
+                                $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = [];
+                            }
                             $company_id = $allData->company_local_id;
                         }
                     }
