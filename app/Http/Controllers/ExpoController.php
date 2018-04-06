@@ -671,18 +671,6 @@ class ExpoController extends Controller
 
     public function updateInfo(Request $request)
     {
-        //print_r($request->all());exit;
-        /*$response_array = array(
-                    'code' => 200,
-                    'error_code' => '',
-                    'data' => $request->all(),
-                    'status' => 'success',
-                    'statusMsg' => 'Data updated succesfully',
-                    'error_msg' => '',
-                    'debug' => "TRUE"
-                );
-        return $this->returnResponse($response_array);*/
-        
         $expoInsertArr = [];
         $expo_ids = [];
         foreach ($request->input('record') as $value) {
@@ -704,14 +692,10 @@ class ExpoController extends Controller
                 }
             }
         }
-        //echo "<pre>";print_r($expoInsertArr);print_r($expo_ids);exit;
-        //echo count($expoInsertArr);exit;
         if(count($expoInsertArr) > 0)
         {
             $check_insert = DB::table('expo_details')->insert($expoInsertArr);
         }
-        /*else
-        {*/
         $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('expo_local_id', $expo_ids)->get();
         $companyInsertArr = [];
         $companyUpdateArr = [];
@@ -752,22 +736,30 @@ class ExpoController extends Controller
                 $check_insert = DB::table('company_details')->insert($companyInsertArr);
             }
             $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
-            //echo "<pre>";print_r($data);exit;
+            $response_array = array(
+                'code' => 200,
+                'error_code' => '',
+                'data' => $data,
+                'status' => 'success',
+                'statusMsg' => 'Data updated succesfully',
+                'error_msg' => '',
+                'debug' => "TRUE"
+            );
         }
-        $response_array = array(
-            'code' => 200,
-            'error_code' => '',
-            'data' => $data,
-            'status' => 'success',
-            'statusMsg' => 'Data updated succesfully',
-            'error_msg' => '',
-            'debug' => "TRUE"
-        );
-        return $this->returnResponse($response_array);
-        /*}*/
-
+        else
+        {
+            $response_array = array(
+                'code' => 400,
+                'error_code' => '',
+                'data' => array(),
+                'status' => 'fail',
+                'statusMsg' => 'Something went wrong.',
+                'error_msg' => '',
+                'debug' => "TRUE"
+            );
+        }
         
-        //echo "<pre>";print_r($expoInsertArr);exit;
+        return $this->returnResponse($response_array);
     }
 
     public function forgotPassword(Request $request)
@@ -778,7 +770,6 @@ class ExpoController extends Controller
 
         if($validator->fails())
         {
-            //mail("dhawalraut13@gmail.com","test array","here 0");
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
