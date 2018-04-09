@@ -708,7 +708,7 @@ class ExpoController extends Controller
                     if(NULL != $checkIfCompanyExists)
                     {
                         $companyUpdateArr = [
-                            'name' => $companyDetails['CompanyName'],
+                            'name' => $companyDetails['companyName'],
                             'expo_local_id' => $request->input('record.0.localExpoId'),
                             //'company_local_id' => $companyDetails['companyInternalId'],
                             'note' => $companyDetails['note'],
@@ -720,7 +720,7 @@ class ExpoController extends Controller
                     else
                     {
                         $companyInsertArr[] = [
-                            'name' => $companyDetails['CompanyName'],
+                            'name' => $companyDetails['companyName'],
                             'expo_local_id' => $request->input('record.0.localExpoId'),
                             'company_local_id' => $companyDetails['companyInternalId'],
                             'note' => $companyDetails['note'],
