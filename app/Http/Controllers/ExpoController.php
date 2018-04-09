@@ -739,7 +739,7 @@ class ExpoController extends Controller
             //print_r($data['company_ids']);exit;
             foreach($data['expo_ids'] as $expo_list)
             {
-                $key = array_search(, array_column($data['company_ids'], $expo_list->expo_local_id));
+                $key = array_search($expo_list->expo_local_id, array_column($data['company_ids'], 'expo_local_id'));
                 var_dump($data['company_ids'][$key]);
                 //print_r($expo_list);
             }
