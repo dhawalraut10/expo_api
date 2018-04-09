@@ -737,13 +737,13 @@ class ExpoController extends Controller
             }
             $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
             //print_r($data['company_ids']);exit;
-            foreach($data['expo_ids'] as $expo_list)
+/*            foreach($data['expo_ids'] as $expo_list)
             {
                 $key = array_search($expo_list->expo_local_id, array_column($data['company_ids'], 'expo_local_id'));
                 var_dump($data['company_ids'][$key]);
                 //print_r($expo_list);
             }
-            exit;
+            exit;*/
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
