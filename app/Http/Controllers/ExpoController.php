@@ -696,7 +696,7 @@ class ExpoController extends Controller
         {
             $check_insert = DB::table('expo_details')->insert($expoInsertArr);
         }
-        $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id')->whereIn('expo_local_id', $expo_ids)->get();
+        $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id, expo_name')->whereIn('expo_local_id', $expo_ids)->get();
         $companyInsertArr = [];
         $companyUpdateArr = [];
         if(NULL != $request->input('record.0.companies'))
@@ -735,8 +735,13 @@ class ExpoController extends Controller
             {
                 $check_insert = DB::table('company_details')->insert($companyInsertArr);
             }
-            //$data['records']['expo'][$allData->localExpoId];
             $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
+
+            foreach($data['expo_ids'] as $expo_list)
+            {
+                print_r($expo_list);
+            }
+            exit;
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
