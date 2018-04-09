@@ -735,7 +735,8 @@ class ExpoController extends Controller
             {
                 $check_insert = DB::table('company_details')->insert($companyInsertArr);
             }
-            $data['expo_ids']['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
+            //$data['records']['expo'][$allData->localExpoId];
+            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id')->whereIn('company_local_id', $company_ids)->get();
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
