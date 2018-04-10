@@ -746,7 +746,7 @@ class ExpoController extends Controller
                     if(!in_array($expo_list->expo_local_id, $checkIfExpoPushed))
                     {
                         echo "1";
-                        /*$final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
+                        $final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
                                                              'localExpoId' => $expo_list->expo_local_id];
 
                         array_push($checkIfExpoPushed, $expo_list->expo_local_id);
@@ -754,15 +754,15 @@ class ExpoController extends Controller
                         $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
-                                                'tags' => json_decode($eachCompany->company_tags,TRUE));*/
+                                                'tags' => json_decode($eachCompany->company_tags,TRUE));
                     }
                     elseif(($eachCompany->company_expo_id == $expo_list->expo_local_id))
                     {
                         echo "2";
-                        /*$final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
+                        $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
-                                                'tags' => json_decode($eachCompany->company_tags,TRUE));*/
+                                                'tags' => json_decode($eachCompany->company_tags,TRUE));
                     }
                     else
                     {
