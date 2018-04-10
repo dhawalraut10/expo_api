@@ -747,14 +747,14 @@ class ExpoController extends Controller
                     if(($eachCompany->company_expo_id == $expo_list->expo_local_id) && (!in_array($expo_list->expo_local_id, $checkIfExpoPushed)))
                     {
                         $final_arr['records']['expo'][$i] = $expo_list;
-                        $final_arr['records']['expo'][$i]['company'] = array('company_name' => $eachCompany->companyName,
+                        $final_arr['records']['expo'][$i]['company'][] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
                                                 'tags' => json_decode($eachCompany->company_tags,TRUE));
                     }
                     else
                     {
-                        $final_arr['records']['expo'][$i]['company'] = array('company_name' => $eachCompany->companyName,
+                        $final_arr['records']['expo'][$i]['company'][] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
                                                 'tags' => json_decode($eachCompany->company_tags,TRUE));
