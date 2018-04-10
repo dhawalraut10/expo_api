@@ -751,6 +751,7 @@ class ExpoController extends Controller
                 {
                     if($eachNewCompany->company_expo_id == $expo_list->expo_local_id)
                     {
+                        echo $expo_list->expo_local_id."__".$eachNewCompany->company_expo_id;
                         if(in_array($expo_list->expo_local_id, $checkIfExpoPushed))
                         {
                             echo "1";
