@@ -735,19 +735,24 @@ class ExpoController extends Controller
             {
                 $check_insert = DB::table('company_details')->insert($companyInsertArr);
             }
-            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id', 'expo_local_id')->whereIn('company_local_id', $company_ids)->get();
-            print_r($data['expo_ids']);exit;
+            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id', 'expo_local_id as company_expo_id', 'name as companyName', 'company_tags')->whereIn('company_local_id', $company_ids)->get();
+            $final_arr = [];
             foreach($data['expo_ids'] as $expo_list)
             {
                 print_r($expo_list);
-                /*foreach ($data['company_ids'] as $eachCompany)
+                foreach ($data['company_ids'] as $eachCompany)
                 {
-                    if($eachCompany->expo_local_id == $expo_list->expo_local_id)
+                    if($eachCompany->company_expo_id == $expo_list->expo_local_id)
                     {
-                        $expo['records']['expo'][$expo_list->localExpoId] = 
+                        $final_arr['records']['expo'] = $expo_list;
+                        $final_arr['records']['expo']['company'][] = array('company_name' => $eachCompany->companyName,
+                                                'company_local_id' => $eachCompany->company_local_id,
+                                                'expo_local_id' => $eachCompany->company_expo_id,
+                                                'tags' => json_decode($eachCompany->company_tags,TRUE));
                     }
-                }*/
+                }
             }
+            print_r($final_arr);
             exit;
             $response_array = array(
                 'code' => 200,
