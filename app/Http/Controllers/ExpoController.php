@@ -699,9 +699,9 @@ class ExpoController extends Controller
         $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id', 'expo_name')->whereIn('expo_local_id', $expo_ids)->get();
         $companyInsertArr = [];
         $companyUpdateArr = [];
-
         if(NULL != $request->input('record'))
         {
+            $i=0;
             foreach ($request->input('record') as $companyDetails)
             {
                 if(NULL != $companyDetails['companies'])
@@ -713,7 +713,7 @@ class ExpoController extends Controller
                         {
                             $companyUpdateArr = [
                                 'name' => $eachCompany['companyName'],
-                                'expo_local_id' => $request->input('record.0.localExpoId'),
+                                'expo_local_id' => $request->input('record.'.$i.'.localExpoId'),
                                 //'company_local_id' => $companyDetails['companyInternalId'],
                                 'note' => $eachCompany['note'],
                                 'priority' => $eachCompany['priority'],
@@ -725,7 +725,7 @@ class ExpoController extends Controller
                         {
                             $companyInsertArr[] = [
                                 'name' => $eachCompany['companyName'],
-                                'expo_local_id' => $request->input('record.0.localExpoId'),
+                                'expo_local_id' => $request->input('record.'.$i.'.localExpoId'),
                                 'company_local_id' => $eachCompany['companyInternalId'],
                                 'note' => $eachCompany['note'],
                                 'priority' => $eachCompany['priority'],
@@ -735,6 +735,7 @@ class ExpoController extends Controller
                         $company_ids[] = $eachCompany['companyInternalId'];
                     }
                 }
+                $i++;
             }
             if(count($companyInsertArr) > 0)
             {
@@ -744,19 +745,17 @@ class ExpoController extends Controller
             $final_arr = [];
             $checkIfExpoPushed = [];
             $checkIfCompanyPushed = [];
-            print_r($data['expo_ids']);
-            print_r($data['company_ids']);
-            exit;
+            //print_r($data['expo_ids']);
+            //print_r($data['company_ids']);
+            //exit;
             foreach($data['expo_ids'] as $expo_list)
             {
                 foreach ($data['company_ids'] as $eachNewCompany)
                 {
                     if($eachNewCompany->company_expo_id == $expo_list->expo_local_id)
                     {
-                        echo $expo_list->expo_local_id."__".$eachNewCompany->company_expo_id."  ||  ";
                         if(in_array($expo_list->expo_local_id, $checkIfExpoPushed))
                         {
-                            echo "1";
                             $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachNewCompany->companyName,
                                                     'company_local_id' => $eachNewCompany->company_local_id,
                                                     'expo_local_id' => $eachNewCompany->company_expo_id,
@@ -765,7 +764,6 @@ class ExpoController extends Controller
                         }
                         else
                         {
-                            echo "2";
                             $final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
                                                              'localExpoId' => $expo_list->expo_local_id];
                             $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachNewCompany->companyName,
