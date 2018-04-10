@@ -744,7 +744,7 @@ class ExpoController extends Controller
             {
                 foreach ($data['company_ids'] as $eachCompany)
                 {
-                    if(($eachCompany->company_expo_id == $expo_list->expo_local_id) && (!in_array($expo_list->expo_local_id, $checkIfExpoPushed)))
+                    if(($eachCompany->company_expo_id == $expo_list->expo_local_id) )
                     {
                         $final_arr['records']['expo'][$i] = $expo_list;
                         $final_arr['records']['expo'][$i]['company'][] = array('company_name' => $eachCompany->companyName,
