@@ -739,30 +739,25 @@ class ExpoController extends Controller
             $final_arr = [];
             $checkIfExpoPushed = [];
             $checkIfCompanyPushed = [];
-            $i=0;
             print_r($data['company_ids']);exit;
             foreach($data['expo_ids'] as $expo_list)
             {
                 foreach ($data['company_ids'] as $eachCompany)
                 {
-                    if(($eachCompany->company_expo_id == $expo_list->expo_local_id) && (!in_array($expo_list->expo_local_id, $checkIfExpoPushed)))
+                    if(($eachCompany->company_expo_id == $expo_list->expo_local_id))
                     {
-                        $final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
-                                                             'localExpoId' => $expo_list->expo_local_id];
-                        $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
-                                                'company_local_id' => $eachCompany->company_local_id,
-                                                'expo_local_id' => $eachCompany->company_expo_id,
-                                                'tags' => json_decode($eachCompany->company_tags,TRUE));
-                    }
-                    else
-                    {
+                        if(!in_array($expo_list->expo_local_id, $checkIfExpoPushed))
+                        {
+                            $final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
+                                                                 'localExpoId' => $expo_list->expo_local_id];
+                            array_push($checkIfExpoPushed, $expo_list->expo_local_id);
+                        }
                         $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
                                                 'tags' => json_decode($eachCompany->company_tags,TRUE));
                     }
                 }
-                $i++;
             }
             print_r($final_arr);
             exit;
