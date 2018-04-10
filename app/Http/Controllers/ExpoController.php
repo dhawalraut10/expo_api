@@ -758,7 +758,7 @@ class ExpoController extends Controller
                                                     'company_local_id' => $eachNewCompany->company_local_id,
                                                     'expo_local_id' => $eachNewCompany->company_expo_id,
                                                     'note' => $eachNewCompany->note,
-                                                    'priority' => $eachNewCompany['priority'],
+                                                    'priority' => $eachNewCompany->priority,
                                                     'tags' => json_decode($eachNewCompany->company_tags,TRUE));  
 
                         }
@@ -770,7 +770,7 @@ class ExpoController extends Controller
                                                     'company_local_id' => $eachNewCompany->company_local_id,
                                                     'expo_local_id' => $eachNewCompany->company_expo_id,
                                                     'note' => $eachNewCompany->note,
-                                                    'priority' => $eachNewCompany['priority'],
+                                                    'priority' => $eachNewCompany->priority,
                                                     'tags' => json_decode($eachNewCompany->company_tags,TRUE));
                             array_push($checkIfExpoPushed, $expo_list->expo_local_id);
                         }
