@@ -671,6 +671,7 @@ class ExpoController extends Controller
 
     public function updateInfo(Request $request)
     {
+        print_r($request->input('record.0.companies'));exit;
         $expoInsertArr = [];
         $expo_ids = [];
         foreach ($request->input('record') as $value) {
