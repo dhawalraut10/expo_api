@@ -704,10 +704,50 @@ class ExpoController extends Controller
         {
             foreach ($request->input('record') as $companyDetails)
             {
-                //foreach()
-                print_r($companyDetails['companies']);
+                if(NULL != $companyDetails['companies'])
+                {
+                    foreach($companyDetails['companies'] as $eachCompany)
+                    {
+                        $checkIfCompanyExists = DB::table('company_details')->where('company_local_id', $eachCompany['companyInternalId'])->first();
+                        if(NULL != $checkIfCompanyExists)
+                        {
+                            $companyUpdateArr = [
+                                'name' => $eachCompany['companyName'],
+                                'expo_local_id' => $request->input('record.0.localExpoId'),
+                                //'company_local_id' => $companyDetails['companyInternalId'],
+                                'note' => $eachCompany['note'],
+                                'priority' => $eachCompany['priority'],
+                                'company_tags' => json_encode($eachCompany['companyTags']),
+                            ];
+                            DB::table('company_details')->where('company_local_id', $eachCompany['companyInternalId'])->update($companyUpdateArr);
+                        }
+                        else
+                        {
+                            $companyInsertArr[] = [
+                                'name' => $eachCompany['companyName'],
+                                'expo_local_id' => $request->input('record.0.localExpoId'),
+                                'company_local_id' => $eachCompany['companyInternalId'],
+                                'note' => $eachCompany['note'],
+                                'priority' => $eachCompany['priority'],
+                                'company_tags' => json_encode($eachCompany['companyTags']),
+                            ];
+                        }
+                        $company_ids[] = $eachCompany['companyInternalId'];
+                    }
+                }
             }
+            if(count($companyInsertArr) > 0)
+            {
+                $check_insert = DB::table('company_details')->insert($companyInsertArr);
+            }
+            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id', 'expo_local_id as company_expo_id', 'name as companyName', 'company_tags')->whereIn('company_local_id', $company_ids)->get();
+            $final_arr = [];
+            $checkIfExpoPushed = [];
+            $checkIfCompanyPushed = [];
+            print_r($data['expo_ids']);
+            print_r($data['company_ids']);
         }
+
         exit;
         if(NULL != $request->input('record.0.companies'))
         {
