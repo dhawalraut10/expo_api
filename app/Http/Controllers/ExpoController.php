@@ -739,6 +739,9 @@ class ExpoController extends Controller
             $final_arr = [];
             $checkIfExpoPushed = [];
             $checkIfCompanyPushed = [];
+            print_r($data['expo_ids']);
+            print_r($data['company_ids']);
+            exit;
             foreach($data['expo_ids'] as $expo_list)
             {
                 foreach ($data['company_ids'] as $eachCompany)
