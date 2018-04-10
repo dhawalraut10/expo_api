@@ -671,7 +671,6 @@ class ExpoController extends Controller
 
     public function updateInfo(Request $request)
     {
-        print_r($request->input('record.1.companies'));exit;
         $expoInsertArr = [];
         $expo_ids = [];
         foreach ($request->input('record') as $value) {
@@ -700,6 +699,15 @@ class ExpoController extends Controller
         $data['expo_ids'] = DB::table('expo_details')->select('id as expo_id', 'expo_local_id', 'expo_name')->whereIn('expo_local_id', $expo_ids)->get();
         $companyInsertArr = [];
         $companyUpdateArr = [];
+
+        if(NULL != $request->input('record'))
+        {
+            foreach ($request->input('record') as $companyDetails)
+            {
+                print_r($companyDetails);
+            }
+        }
+        exit;
         if(NULL != $request->input('record.0.companies'))
         {
             foreach ($request->input('record.0.companies') as $companyDetails) {
