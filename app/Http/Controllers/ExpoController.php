@@ -927,7 +927,6 @@ Thank you.";
                                                 left join images i on (cd.company_local_id = i.company_local_id AND i.is_deleted = 0)
                                             WHERE
                                                 ed.customer_id = '".$user_id."'");
-        
 
         $expo = [];
         $company = [];
