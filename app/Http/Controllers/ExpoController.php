@@ -758,12 +758,10 @@ class ExpoController extends Controller
                     }
                 }
             }
-            print_r($final_arr);
-            exit;
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
-                'data' => $data,
+                'data' => $final_arr,
                 'status' => 'success',
                 'statusMsg' => 'Data updated succesfully',
                 'error_msg' => '',
