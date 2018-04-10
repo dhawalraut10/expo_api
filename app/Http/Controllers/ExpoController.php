@@ -737,20 +737,30 @@ class ExpoController extends Controller
             }
             $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id', 'expo_local_id as company_expo_id', 'name as companyName', 'company_tags')->whereIn('company_local_id', $company_ids)->get();
             $final_arr = [];
+            $checkIfExpoPushed = [];
+            $checkIfCompanyPushed = [];
+            $i=0;
             foreach($data['expo_ids'] as $expo_list)
             {
-                //print_r($expo_list);
                 foreach ($data['company_ids'] as $eachCompany)
                 {
-                    if($eachCompany->company_expo_id == $expo_list->expo_local_id)
+                    if(($eachCompany->company_expo_id == $expo_list->expo_local_id) && (!in_array($expo_list->expo_local_id, $checkIfExpoPushed)))
                     {
-                        $final_arr['records']['expo'][] = $expo_list;
-                        $final_arr['records']['expo']['company'][] = array('company_name' => $eachCompany->companyName,
+                        $final_arr['records']['expo'][$i] = $expo_list;
+                        $final_arr['records']['expo'][$i]['company'] = array('company_name' => $eachCompany->companyName,
+                                                'company_local_id' => $eachCompany->company_local_id,
+                                                'expo_local_id' => $eachCompany->company_expo_id,
+                                                'tags' => json_decode($eachCompany->company_tags,TRUE));
+                    }
+                    else
+                    {
+                        $final_arr['records']['expo'][$i]['company'] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
                                                 'tags' => json_decode($eachCompany->company_tags,TRUE));
                     }
                 }
+                $i++;
             }
             print_r($final_arr);
             exit;
