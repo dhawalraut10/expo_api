@@ -745,7 +745,8 @@ class ExpoController extends Controller
                 {
                     if(!in_array($expo_list->expo_local_id, $checkIfExpoPushed))
                     {
-                        $final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
+                        echo "1";
+                        /*$final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
                                                              'localExpoId' => $expo_list->expo_local_id];
 
                         array_push($checkIfExpoPushed, $expo_list->expo_local_id);
@@ -753,28 +754,30 @@ class ExpoController extends Controller
                         $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
-                                                'tags' => json_decode($eachCompany->company_tags,TRUE));
+                                                'tags' => json_decode($eachCompany->company_tags,TRUE));*/
                     }
                     elseif(($eachCompany->company_expo_id == $expo_list->expo_local_id))
                     {
-                        $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
+                        echo "2";
+                        /*$final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
-                                                'tags' => json_decode($eachCompany->company_tags,TRUE));
+                                                'tags' => json_decode($eachCompany->company_tags,TRUE));*/
                     }
                     else
                     {
-
+                        echo "3";
                         /*$final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
-                                                                 'localExpoId' => $expo_list->expo_local_id];*/
+                                                                 'localExpoId' => $expo_list->expo_local_id];
                         $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
                                                 'tags' => json_decode($eachCompany->company_tags,TRUE));
-                        //array_push($checkIfExpoPushed, $expo_list->expo_local_id);
+                        //array_push($checkIfExpoPushed, $expo_list->expo_local_id);*/
                     }
                 }
             }
+            exit;
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
