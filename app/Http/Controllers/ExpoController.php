@@ -741,7 +741,7 @@ class ExpoController extends Controller
             {
                 $check_insert = DB::table('company_details')->insert($companyInsertArr);
             }
-            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id', 'expo_local_id as company_expo_id', 'name as companyName', 'company_tags')->whereIn('company_local_id', $company_ids)->get();
+            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id', 'expo_local_id as company_expo_id', 'name as companyName', 'company_tags', 'note', 'priority')->whereIn('company_local_id', $company_ids)->get();
             $final_arr = [];
             $checkIfExpoPushed = [];
             $checkIfCompanyPushed = [];
@@ -757,6 +757,8 @@ class ExpoController extends Controller
                             $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachNewCompany->companyName,
                                                     'company_local_id' => $eachNewCompany->company_local_id,
                                                     'expo_local_id' => $eachNewCompany->company_expo_id,
+                                                    'note' => $eachNewCompany->note,
+                                                    'priority' => $eachNewCompany['priority'],
                                                     'tags' => json_decode($eachNewCompany->company_tags,TRUE));  
 
                         }
@@ -767,6 +769,8 @@ class ExpoController extends Controller
                             $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachNewCompany->companyName,
                                                     'company_local_id' => $eachNewCompany->company_local_id,
                                                     'expo_local_id' => $eachNewCompany->company_expo_id,
+                                                    'note' => $eachNewCompany->note,
+                                                    'priority' => $eachNewCompany['priority'],
                                                     'tags' => json_decode($eachNewCompany->company_tags,TRUE));
                             array_push($checkIfExpoPushed, $expo_list->expo_local_id);
                         }
