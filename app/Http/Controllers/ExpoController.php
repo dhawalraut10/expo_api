@@ -704,7 +704,8 @@ class ExpoController extends Controller
         {
             foreach ($request->input('record') as $companyDetails)
             {
-                print_r($companyDetails);
+                //foreach()
+                print_r($companyDetails['companies']);
             }
         }
         exit;
