@@ -740,6 +740,7 @@ class ExpoController extends Controller
             $checkIfExpoPushed = [];
             $checkIfCompanyPushed = [];
             $i=0;
+            print_r($data['company_ids']);exit;
             foreach($data['expo_ids'] as $expo_list)
             {
                 foreach ($data['company_ids'] as $eachCompany)
