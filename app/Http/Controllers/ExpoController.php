@@ -745,9 +745,7 @@ class ExpoController extends Controller
             $final_arr = [];
             $checkIfExpoPushed = [];
             $checkIfCompanyPushed = [];
-            //print_r($data['expo_ids']);
-            //print_r($data['company_ids']);
-            //exit;
+
             foreach($data['expo_ids'] as $expo_list)
             {
                 foreach ($data['company_ids'] as $eachNewCompany)
@@ -775,85 +773,6 @@ class ExpoController extends Controller
                     }
                 }
             }
-        }
-
-
-        print_r($final_arr);
-        exit;
-        if(NULL != $request->input('record.0.companies'))
-        {
-            foreach ($request->input('record.0.companies') as $companyDetails) {
-                if(NULL != $companyDetails['companyInternalId'])
-                {
-                    $checkIfCompanyExists = DB::table('company_details')->where('company_local_id', $companyDetails['companyInternalId'])->first();
-                    if(NULL != $checkIfCompanyExists)
-                    {
-                        $companyUpdateArr = [
-                            'name' => $companyDetails['companyName'],
-                            'expo_local_id' => $request->input('record.0.localExpoId'),
-                            //'company_local_id' => $companyDetails['companyInternalId'],
-                            'note' => $companyDetails['note'],
-                            'priority' => $companyDetails['priority'],
-                            'company_tags' => json_encode($companyDetails['companyTags']),
-                        ];
-                        DB::table('company_details')->where('company_local_id', $companyDetails['companyInternalId'])->update($companyUpdateArr);
-                    }
-                    else
-                    {
-                        $companyInsertArr[] = [
-                            'name' => $companyDetails['companyName'],
-                            'expo_local_id' => $request->input('record.0.localExpoId'),
-                            'company_local_id' => $companyDetails['companyInternalId'],
-                            'note' => $companyDetails['note'],
-                            'priority' => $companyDetails['priority'],
-                            'company_tags' => json_encode($companyDetails['companyTags']),
-                        ];
-                    }
-                    $company_ids[] = $companyDetails['companyInternalId'];
-                }
-            }
-            if(count($companyInsertArr) > 0)
-            {
-                $check_insert = DB::table('company_details')->insert($companyInsertArr);
-            }
-            $data['company_ids'] = DB::table('company_details')->select('id as company_id', 'company_local_id', 'expo_local_id as company_expo_id', 'name as companyName', 'company_tags')->whereIn('company_local_id', $company_ids)->get();
-            $final_arr = [];
-            $checkIfExpoPushed = [];
-            $checkIfCompanyPushed = [];
-            print_r($data['expo_ids']);
-            print_r($data['company_ids']);
-            exit;
-            foreach($data['expo_ids'] as $expo_list)
-            {
-                foreach ($data['company_ids'] as $eachCompany)
-                {
-                    if($eachCompany->company_expo_id == $expo_list->expo_local_id)
-                    {
-                        if(in_array($expo_list->expo_local_id, $checkIfExpoPushed))
-                        {
-                            echo "1";
-                            $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
-                                                    'company_local_id' => $eachCompany->company_local_id,
-                                                    'expo_local_id' => $eachCompany->company_expo_id,
-                                                    'tags' => json_decode($eachCompany->company_tags,TRUE));  
-
-                        }
-                        else
-                        {
-                            echo "2";
-                            $final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
-                                                             'localExpoId' => $expo_list->expo_local_id];
-                            $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
-                                                    'company_local_id' => $eachCompany->company_local_id,
-                                                    'expo_local_id' => $eachCompany->company_expo_id,
-                                                    'tags' => json_decode($eachCompany->company_tags,TRUE));
-                            array_push($checkIfExpoPushed, $expo_list->expo_local_id);
-                        }
-                    }
-                }
-            }
-            print_r($final_arr);
-            exit;
             $response_array = array(
                 'code' => 200,
                 'error_code' => '',
