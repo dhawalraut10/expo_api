@@ -739,7 +739,7 @@ class ExpoController extends Controller
             $final_arr = [];
             foreach($data['expo_ids'] as $expo_list)
             {
-                print_r($expo_list);
+                //print_r($expo_list);
                 foreach ($data['company_ids'] as $eachCompany)
                 {
                     if($eachCompany->company_expo_id == $expo_list->expo_local_id)
