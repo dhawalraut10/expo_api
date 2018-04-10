@@ -747,32 +747,36 @@ class ExpoController extends Controller
 
             foreach($data['expo_ids'] as $expo_list)
             {
-                foreach ($data['company_ids'] as $eachCompany)
+                foreach ($data['company_ids'] as $eachNewCompany)
                 {
-                    if($eachCompany->company_expo_id == $expo_list->expo_local_id)
+                    if($eachNewCompany->company_expo_id == $expo_list->expo_local_id)
                     {
                         if(in_array($expo_list->expo_local_id, $checkIfExpoPushed))
                         {
-                            $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
-                                                    'company_local_id' => $eachCompany->company_local_id,
-                                                    'expo_local_id' => $eachCompany->company_expo_id,
-                                                    'tags' => json_decode($eachCompany->company_tags,TRUE));  
+                            echo "1";
+                            $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachNewCompany->companyName,
+                                                    'company_local_id' => $eachNewCompany->company_local_id,
+                                                    'expo_local_id' => $eachNewCompany->company_expo_id,
+                                                    'tags' => json_decode($eachNewCompany->company_tags,TRUE));  
 
                         }
                         else
                         {
+                            echo "2";
                             $final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
                                                              'localExpoId' => $expo_list->expo_local_id];
-                            $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
-                                                    'company_local_id' => $eachCompany->company_local_id,
-                                                    'expo_local_id' => $eachCompany->company_expo_id,
-                                                    'tags' => json_decode($eachCompany->company_tags,TRUE));
+                            $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachNewCompany->companyName,
+                                                    'company_local_id' => $eachNewCompany->company_local_id,
+                                                    'expo_local_id' => $eachNewCompany->company_expo_id,
+                                                    'tags' => json_decode($eachNewCompany->company_tags,TRUE));
                             array_push($checkIfExpoPushed, $expo_list->expo_local_id);
                         }
                     }
                 }
             }
         }
+
+
         print_r($final_arr);
         exit;
         if(NULL != $request->input('record.0.companies'))
