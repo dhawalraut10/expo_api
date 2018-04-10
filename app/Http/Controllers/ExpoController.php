@@ -744,7 +744,7 @@ class ExpoController extends Controller
                 {
                     if($eachCompany->company_expo_id == $expo_list->expo_local_id)
                     {
-                        $final_arr['records']['expo'] = $expo_list;
+                        $final_arr['records']['expo'][] = $expo_list;
                         $final_arr['records']['expo']['company'][] = array('company_name' => $eachCompany->companyName,
                                                 'company_local_id' => $eachCompany->company_local_id,
                                                 'expo_local_id' => $eachCompany->company_expo_id,
