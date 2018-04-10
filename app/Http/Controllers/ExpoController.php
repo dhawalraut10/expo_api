@@ -756,6 +756,16 @@ class ExpoController extends Controller
                                                 'expo_local_id' => $eachCompany->company_expo_id,
                                                 'tags' => json_decode($eachCompany->company_tags,TRUE));
                     }
+                    else
+                    {
+                        $final_arr['records']['expo'][$expo_list->expo_local_id] = ['expoName' => $expo_list->expo_name,
+                                                                 'localExpoId' => $expo_list->expo_local_id];
+                        array_push($checkIfExpoPushed, $expo_list->expo_local_id);
+                        $final_arr['records']['expo'][$expo_list->expo_local_id]['company'][] = array('company_name' => $eachCompany->companyName,
+                                                'company_local_id' => $eachCompany->company_local_id,
+                                                'expo_local_id' => $eachCompany->company_expo_id,
+                                                'tags' => json_decode($eachCompany->company_tags,TRUE));
+                    }
                 }
             }
             $response_array = array(
