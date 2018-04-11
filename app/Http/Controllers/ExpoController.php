@@ -524,6 +524,10 @@ class ExpoController extends Controller
 
                             $image_id = $allData->image_record_id;
                         }
+                        else
+                        {
+                            $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'] = []; 
+                        }
                     }
                     else
                     {
