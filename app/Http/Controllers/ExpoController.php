@@ -507,7 +507,7 @@ class ExpoController extends Controller
                                                         'company_table_id' => $allData->company_table_id,
                                                         'tags' => json_decode($allData->company_tags,TRUE));
 
-                            $allTags = array_merge($allTags,json_decode($allData->company_tags,TRUE)));
+                            $allTags = array_merge($allTags,json_decode($allData->company_tags,TRUE));
 
                             $company_id = $allData->company_local_id;
                         }
@@ -558,7 +558,7 @@ class ExpoController extends Controller
                                                         'priority' => $allData->priority,
                                                         'company_table_id' => $allData->company_table_id,
                                                         'tags' => json_decode($allData->company_tags,TRUE));
-                            $allTags = array_merge($allTags,json_decode($allData->company_tags,TRUE)));
+                            $allTags = array_merge($allTags,json_decode($allData->company_tags,TRUE));
                             $company_id = $allData->localExpoId;
 
                             if(NULL != $allData->image_record_id)
