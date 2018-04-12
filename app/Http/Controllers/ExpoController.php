@@ -610,7 +610,7 @@ class ExpoController extends Controller
                 {
                     $data['records']['expo'] = [];
                 }
-                $data['allTags'] = array_unique($allTags); // remove repeated values in the array
+                $data['allTags'] = array_values(array_unique($allTags)); // remove repeated values in the array
                 if(count($expo['records']['expo']) > 0)
                 {
                     $data['records'] = $expo['records'];
