@@ -589,7 +589,7 @@ class ExpoController extends Controller
                     }
                     $i++;
                 }
-                $allTags = array_unique($allTags);
+                $data['allTags'] = array_unique($allTags);
                 if(count($expo['records']['expo']) > 0)
                 {
                     $data['records'] = $expo['records'];
