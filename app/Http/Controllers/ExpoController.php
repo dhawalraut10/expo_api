@@ -507,7 +507,7 @@ class ExpoController extends Controller
                                                         'company_table_id' => $allData->company_table_id,
                                                         'tags' => json_decode($allData->company_tags,TRUE));
                             $temp_array_tag = [];
-                            $temp_array_tag = json_decode($allData->company_local_id,TRUE);
+                            $temp_array_tag = json_decode($allData->company_tags,TRUE);
 print_r($temp_array_tag);exit;
                             if(!empty($temp_array_tag))
                             {
@@ -565,7 +565,7 @@ print_r($temp_array_tag);exit;
                                                         'tags' => json_decode($allData->company_tags,TRUE));
 
                             $temp_array_tag = [];
-                            $temp_array_tag = json_decode($allData->company_local_id,TRUE);
+                            $temp_array_tag = json_decode($allData->company_tags,TRUE);
                             if(!empty($temp_array_tag))
                             {
                                 $allTags = array_merge($allTags,$temp_array_tag);
