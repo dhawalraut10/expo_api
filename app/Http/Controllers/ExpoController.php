@@ -541,7 +541,7 @@ class ExpoController extends Controller
                             }
                         }
                         else
-                            $expo['records']['expo'][$allData->localExpoId]['company'][] = [];
+                            $expo['records']['expo'][$allData->localExpoId]['company'] = array();
 
                     }
                     else
@@ -598,7 +598,7 @@ class ExpoController extends Controller
                             }
                         }
                         else
-                            $expo['records']['expo'][$allData->localExpoId]['company'][] = [];
+                            $expo['records']['expo'][$allData->localExpoId]['company'] = array();
                     }
                     $i++;
                 }
