@@ -487,6 +487,7 @@ class ExpoController extends Controller
                 $expo_id = 0;
                 $company_id = 0;
                 $image_id = 0;
+                $allTags = [];
                 $i=0;
                 foreach($restore_data as $allData)
                 {
@@ -505,6 +506,8 @@ class ExpoController extends Controller
                                                         'priority' => $allData->priority,
                                                         'company_table_id' => $allData->company_table_id,
                                                         'tags' => json_decode($allData->company_tags,TRUE));
+
+                            $allTags = array_merge($allTags,json_decode($allData->company_tags,TRUE)));
 
                             $company_id = $allData->company_local_id;
                         }
@@ -555,6 +558,7 @@ class ExpoController extends Controller
                                                         'priority' => $allData->priority,
                                                         'company_table_id' => $allData->company_table_id,
                                                         'tags' => json_decode($allData->company_tags,TRUE));
+                            $allTags = array_merge($allTags,json_decode($allData->company_tags,TRUE)));
                             $company_id = $allData->localExpoId;
 
                             if(NULL != $allData->image_record_id)
@@ -574,6 +578,7 @@ class ExpoController extends Controller
                     }
                     $i++;
                 }
+                print_r($allTags);exit;
                 if(count($expo['records']['expo']) > 0)
                 {
                     $data['records'] = $expo['records'];
