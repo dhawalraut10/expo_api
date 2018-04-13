@@ -1151,7 +1151,7 @@ Thank you.";
 
                     // Get the underlying SwiftMailer message instance...
                     $print_message = $message->getSwiftMessage();
-                    var_dump($print_message);
+                    print_r($print_message);
                 });
 /*                if(NULL != $customer_details->email && ($customer_details->email != ""))
                 {
