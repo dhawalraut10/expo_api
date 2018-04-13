@@ -617,7 +617,6 @@ class ExpoController extends Controller
                 $data['allTags'] = array_values(array_unique($allTags)); // remove repeated values in the array
                 $data['user'] = $check_user_exists;
                 
-                print_r($data);exit;
                 $response_array = array(
                     'code' => 200,
                     'error_code' => '',
