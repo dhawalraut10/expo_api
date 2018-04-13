@@ -1135,7 +1135,7 @@ Thank you.";
                 $data = ['customer_name' => $customer_name,
                          'password' => $slug];
 
-                \Mail::send('emails.reset_password', $data, function($message) use ($subject,$to,$customer_name)
+                Mail::send('emails.reset_password', $data, function($message) use ($subject,$to,$customer_name)
                 {
                     
 
