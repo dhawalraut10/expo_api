@@ -1121,7 +1121,7 @@ Thank you.";
                 $slug = $this->generateRandomString();
 
                 DB::table('users')->where('id',$customer_details->id)
-                                    ->update(['password' => MD5($slug), 'updatedon' => date('Y-m-d H:i:s')]);
+                                    ->update(['password' => MD5($slug), 'updated_on' => date('Y-m-d H:i:s')]);
 
                 $customer_name = "Customer";
                 $subject = "Reset Password for Expo Services";
