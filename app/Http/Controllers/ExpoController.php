@@ -1124,18 +1124,20 @@ Thank you.";
                                     ->update(['password' => MD5($slug), 'updated_on' => date('Y-m-d H:i:s')]);
 
                 $customer_name = "Customer";
-                $subject = "Reset Password for Expo Services";
+                if(NULL != $customer_details->name)
+                        $customer_name = $customer_details->name;
 
+                $subject = "Reset Password for Expo Services";
+                $to = $customer_details->email;
                 $data = ['customer_name' => $customer_name,
                          'password' => $slug];
 
-                Mail::send('emails.reset_password', $data, function($message)
+                Mail::send('emails.reset_password', $data, function($message) use ($subject,$to,$customer_name)
                 {
-                    if(NULL != $customer_details->name)
-                        $customer_name = $customer_details->name;
+                    
 
                     $message->sender("noreply@xhtmlchop.com", "Expo Services");
-                    //$message->to($customer_details->email, $customer_name);
+                    //$message->to($to);
                     $message->to('dhawalraut13@gmail.com', $customer_name);
                     $message->replyTo("noreply@xhtmlchop.com", $name = null);
                     $message->subject($subject);
