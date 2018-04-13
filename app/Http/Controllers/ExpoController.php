@@ -5,7 +5,7 @@ use App\Expo;
 use Validator;
 use DB;
 use Cache;
-use Mail;
+//use Mail;
 use view;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
