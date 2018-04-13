@@ -1113,14 +1113,14 @@ Thank you.";
         }
         else
         {
-            $customer_details = DB::table('customer')->where('email', $request->input('email'))
+            $customer_details = DB::table('users')->where('email', $request->input('email'))
                                                     ->first(['id','name', 'email', 'is_deleted']);
 
             if(!empty($customer_details))
             {
                 $slug = $this->generateRandomString();
 
-                DB::table('customer')->where('id',$customer_details->id)
+                DB::table('users')->where('id',$customer_details->id)
                                     ->update(['password' => MD5($slug), 'updatedon' => date('Y-m-d H:i:s')]);
 
                 $customer_name = "Customer";
