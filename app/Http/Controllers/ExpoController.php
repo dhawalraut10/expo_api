@@ -1153,7 +1153,7 @@ Thank you.";
                     $print_message = $message->getSwiftMessage();
                     print_r($print_message);
                 });
-/*                if(NULL != $customer_details->email && ($customer_details->email != ""))
+/*              if(NULL != $customer_details->email && ($customer_details->email != ""))
                 {
                     if(NULL != $customer_details->name)
                         $customer_name = $customer_details->name;
