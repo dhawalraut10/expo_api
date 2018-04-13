@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use DB;
 use Cache;
+use Mail;
 
 class ExpoController extends Controller
 {
@@ -616,7 +617,7 @@ class ExpoController extends Controller
                 }
                 $data['allTags'] = array_values(array_unique($allTags)); // remove repeated values in the array
                 $data['user'] = $check_user_exists;
-                
+
                 $response_array = array(
                     'code' => 200,
                     'error_code' => '',
@@ -1086,5 +1087,151 @@ Thank you.";
             
         }
         return $this->returnResponse($response_array);
+    }
+
+    public function forgetPassword(Request $request)
+    {
+        $validator_array = [];
+        
+        $validator_array = [
+            'email' => 'required|email'
+        ];
+
+        $validator = Validator::make($request->all(),$validator_array);
+
+        if($validator->fails())
+        {
+            $response_array = array(
+                'code' => 200,
+                'error_code' => 422,
+                'data' => '',
+                'status' => 'fail',
+                'statusMsg' => $validator->errors()->first(),
+                'error_msg' => 'Validation failed',
+                'debug' => "TRUE"
+            );
+        }
+        else
+        {
+            $customer_details = DB::table('customer')->where('email', $request->input('email'))
+                                                    ->first(['id','name', 'email', 'is_deleted']);
+
+            if(!empty($customer_details))
+            {
+                $slug = $this->generateRandomString();
+
+                DB::table('customer')->where('id',$customer_details->id)
+                                    ->update(['password' => MD5($slug), 'updatedon' => date('Y-m-d H:i:s')]);
+
+                $customer_name = "Customer";
+                $subject = "Reset Password for Expo Services";
+
+                $data = ['customer_name' => $customer_name,
+                         'password' => $slug];
+
+                Mail::send('emails.reset_password', $data, function($message)
+                {
+                    if(NULL != $customer_details->name)
+                        $customer_name = $customer_details->name;
+
+                    $message->sender("noreply@xhtmlchop.com", "Expo Services");
+                    //$message->to($customer_details->email, $customer_name);
+                    $message->to('dhawalraut13@gmail.com', $customer_name);
+                    $message->replyTo("noreply@xhtmlchop.com", $name = null);
+                    $message->subject($subject);
+                    $message->priority($level = 1);
+
+                    // Attach a file from a raw $data string...
+                    //$message->attachData($data, $name, array $options = []);
+
+                    // Get the underlying SwiftMailer message instance...
+                    $print_message = $message->getSwiftMessage();
+                    var_dump($print_message);
+                });
+/*                if(NULL != $customer_details->email && ($customer_details->email != ""))
+                {
+                    if(NULL != $customer_details->name)
+                        $customer_name = $customer_details->name;
+
+                    $headers  = "From: Expo Services < noreply@xhtmlchop.com >\n";
+                    //$headers .= "Cc: testsite < mail@testsite.com >\n"; 
+                    $headers .= "X-Sender: Expo Services < noreply@xhtmlchop.com >\n";
+                    $headers .= 'X-Mailer: PHP/' . phpversion();
+                    $headers .= "X-Priority: 1\n"; // Urgent message!
+                    $headers .= "Return-Path: noreply@xhtmlchop.com\n"; // Return path for errors
+                    $headers .= "MIME-Version: 1.0\r\n";
+                    $headers .= "Content-Type: text/html; charset=iso-8859-1\n";
+
+                    $subject = "Reset Password for Expo Services";
+
+                    $body = "<p>Dear ".$customer_name.",</p><p> You have made a request to reset the password for Expo Services. <br/><br/> Your System Generated Password is : ".$slug."</p><p>Kindly change your password after loggin in.</p><p>Thank you</p><p>Expo Services</p>";
+
+                    //mail('dhawalraut13@gmail.com', 'OTP for forgot password', $body, $headers);
+                    if(mail($customer_details->email, $subject, $body, $headers))
+                    {
+                        $response_array = array(
+                            'code' => 200,
+                            'error_code' => '',
+                            'data' => '{}',
+                            'status' => 'success',
+                            'statusMsg' => 'OTP sent on your email/phone.',
+                            'error_msg' => '',
+                            'debug' => "TRUE"
+                        );
+                        return $this->returnResponse($response_array);
+                    }
+                }*/
+                
+
+               /* if(!empty($result) && $result->status == 'success')
+                {   
+                    $response_array = array(
+                        'code' => 200,
+                        'error_code' => '',
+                        'data' => '{}',
+                        'status' => 'success',
+                        'statusMsg' => 'OTP sent on your email/phone.',
+                        'error_msg' => '',
+                        'debug' => "TRUE"
+                    );
+                }
+                else
+                {
+                    $response_array = array(
+                        'code' => 200,
+                        'error_code' => '',
+                        'data' => '{}',
+                        'status' => 'success',
+                        'statusMsg' => 'OTP sent on your email/phone.',
+                        'error_msg' => '',
+                        'debug' => "TRUE"
+                    );
+                } */
+            }
+            else
+            {
+                $x = new ExpoController();
+                $response_array = array(
+                        'code' => 200,
+                        'error_code' => 422,
+                        'data' => $x,
+                        'status' => 'fail',
+                        'statusMsg' => 'Your phone number is not verified with us. Please use correct registered email to reset the password',
+                        'error_msg' => 'User might be registered via social login',
+                        'debug' => "TRUE"
+                    );
+            }
+        }
+        return $this->returnResponse($response_array);
+    }
+    protected function generateRandomString($length = 10) 
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
