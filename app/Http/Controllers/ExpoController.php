@@ -616,7 +616,7 @@ class ExpoController extends Controller
                     $data['records'] = $expo['records'];
                 }
                 $data['user'] = $check_user_exists;
-
+                print_r($data);exit;
                 $response_array = array(
                     'code' => 200,
                     'error_code' => '',
