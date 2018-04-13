@@ -605,17 +605,18 @@ class ExpoController extends Controller
                         }
                         $i++;
                     }
+                    if(count($expo['records']['expo']) > 0)
+                    {
+                        $data['records'] = $expo['records'];
+                    }
                 }
                 else
                 {
                     $data['records']['expo'] = [];
                 }
                 $data['allTags'] = array_values(array_unique($allTags)); // remove repeated values in the array
-                if(count($expo['records']['expo']) > 0)
-                {
-                    $data['records'] = $expo['records'];
-                }
                 $data['user'] = $check_user_exists;
+                
                 print_r($data);exit;
                 $response_array = array(
                     'code' => 200,
