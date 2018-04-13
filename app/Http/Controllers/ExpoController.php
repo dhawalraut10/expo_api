@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers;
-use App\Customer;
+use App\Expo;
 use Validator;
 use DB;
 use Cache;
@@ -8,6 +8,7 @@ use Mail;
 use view;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
 
 class ExpoController extends Controller
 {
