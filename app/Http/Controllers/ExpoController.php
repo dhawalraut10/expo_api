@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Mail;
 use App\Expo;
 use Validator;
 use DB;
