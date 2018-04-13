@@ -2,11 +2,12 @@
 namespace App\Http\Controllers;
 use App\Customer;
 use Validator;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use DB;
 use Cache;
 use Mail;
+use view;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ExpoController extends Controller
 {
