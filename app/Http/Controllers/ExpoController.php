@@ -1116,7 +1116,7 @@ Thank you.";
         }
         else
         {
-            $customer_details = DB::table('users')->where('email', $request->input('email'))
+            $customer_details = DB::table('users')->where('email', mb_strtolower($request->input('email')))
                                                     ->first(['id','name', 'email', 'is_deleted']);
 
             if(NULL != $customer_details)
@@ -1152,6 +1152,7 @@ Thank you.";
                     // Get the underlying SwiftMailer message instance...
                     $print_message = $message->getSwiftMessage();
                 });
+
 /*              if(NULL != $customer_details->email && ($customer_details->email != ""))
                 {
                     if(NULL != $customer_details->name)
@@ -1221,7 +1222,7 @@ Thank you.";
                         'data' => $x,
                         'status' => 'fail',
                         'statusMsg' => 'Your email number is not verified with us. Please use correct registered email to reset the password',
-                        'error_msg' => 'User might be registered via social login',
+                        'error_msg' => 'Email not registered',
                         'debug' => "TRUE"
                     );
             }
