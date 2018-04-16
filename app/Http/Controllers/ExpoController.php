@@ -1119,7 +1119,7 @@ Thank you.";
             $customer_details = DB::table('users')->where('email', $request->input('email'))
                                                     ->first(['id','name', 'email', 'is_deleted']);
 
-            if(!empty($customer_details))
+            if(NULL != $customer_details)
             {
                 $slug = $this->generateRandomString();
 
@@ -1151,7 +1151,6 @@ Thank you.";
 
                     // Get the underlying SwiftMailer message instance...
                     $print_message = $message->getSwiftMessage();
-                    print_r($print_message);
                 });
 /*              if(NULL != $customer_details->email && ($customer_details->email != ""))
                 {
@@ -1221,7 +1220,7 @@ Thank you.";
                         'error_code' => 422,
                         'data' => $x,
                         'status' => 'fail',
-                        'statusMsg' => 'Your phone number is not verified with us. Please use correct registered email to reset the password',
+                        'statusMsg' => 'Your email number is not verified with us. Please use correct registered email to reset the password',
                         'error_msg' => 'User might be registered via social login',
                         'debug' => "TRUE"
                     );
