@@ -618,7 +618,7 @@ class ExpoController extends Controller
                         $data['records'] = $expo['records'];
                     }
 
-                    print_r($expo);exit;
+                    //print_r($expo);exit;
                 }
                 else
                 {
