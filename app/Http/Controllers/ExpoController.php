@@ -507,6 +507,7 @@ class ExpoController extends Controller
 
                             if(NULL != $allData->company_local_id)
                             {
+                                echo $allData->company_local_id;
                                 if($company_id != $allData->company_local_id)
                                 {
                                     $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id] = array('company_name' => $allData->companyName,
@@ -559,6 +560,7 @@ class ExpoController extends Controller
                             {
                                 if($company_id ==  $allData->company_local_id)
                                 {
+                                    echo $allData->company_local_id;
                                     if(NULL != $allData->image_record_id)
                                     {
                                         $expo['records']['expo'][$allData->localExpoId]['company'][$allData->company_local_id]['images'][] = array('image_record_id' => $allData->image_record_id,
@@ -619,7 +621,7 @@ class ExpoController extends Controller
                     }
 
                     //print_r($expo);
-                    //exit;
+                    exit;
                 }
                 else
                 {
