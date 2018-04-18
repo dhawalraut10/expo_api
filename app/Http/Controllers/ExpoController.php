@@ -587,7 +587,7 @@ class ExpoController extends Controller
                                         $allTags = array_merge($allTags,$temp_array_tag);
                                     }
 
-                                    $company_id = $allData->localExpoId;
+                                    //$company_id = $allData->localExpoId;
 
                                     if(NULL != $allData->image_record_id)
                                     {
